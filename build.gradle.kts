@@ -1,5 +1,9 @@
+import org.checkerframework.gradle.plugin.CheckerFrameworkExtension
+
 plugins {
     `java-library`
+
+    id("org.checkerframework") version "0.6.27"
 }
 
 repositories {
@@ -23,4 +27,10 @@ tasks {
     test {
         useJUnitPlatform()
     }
+}
+
+configure<CheckerFrameworkExtension> {
+    checkers = listOf(
+        "org.checkerframework.checker.nullness.NullnessChecker"
+    )
 }
