@@ -38,8 +38,9 @@ tasks {
     }
 }
 
-configure<CheckerFrameworkExtension> {
+checkerFramework {
     checkers = listOf(
         "org.checkerframework.checker.nullness.NullnessChecker"
     )
+    excludeTests = true
 }
