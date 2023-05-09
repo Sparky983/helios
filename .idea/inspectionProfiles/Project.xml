@@ -8,7 +8,7 @@
     <inspection_tool class="HtmlTagCanBeJavadocTag" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="JavaLangImport" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="JavadocDeclaration" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="ADDITIONAL_TAGS" value="helios.apiNote,helios.implNote" />
+      <option name="ADDITIONAL_TAGS" value="helios.apiNote,helios.implNote,helios.examples" />
     </inspection_tool>
     <inspection_tool class="LocalCanBeFinal" enabled="true" level="INFORMATION" enabled_by_default="false">
       <scope name="Production" level="WARNING" enabled="true">
