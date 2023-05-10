@@ -11,6 +11,7 @@ import java.util.function.Supplier;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -136,6 +137,12 @@ class OptionalTests {
             var present = Optional.of(VALUE);
             var exception = assertThrows(NullPointerException.class, () -> present.orDefault(null));
             assertEquals("defaultValue cannot be null", exception.getMessage());
+        }
+
+        @Test
+        void testOrNull() {
+
+            assertEquals(VALUE, Optional.of(VALUE).orNull());
         }
 
         @Test
@@ -274,6 +281,12 @@ class OptionalTests {
             var absent = Optional.absent();
             var exception = assertThrows(NullPointerException.class, () -> absent.orDefault(null));
             assertEquals("defaultValue cannot be null", exception.getMessage());
+        }
+
+        @Test
+        void testOrNull() {
+
+            assertNull(Optional.absent().orNull());
         }
 
         @Test

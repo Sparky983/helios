@@ -1,6 +1,7 @@
 package me.sparky983.helios.optional;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -60,6 +61,12 @@ public record Present<T extends @NonNull Object>(T value) implements Optional<T>
     public T orDefault(final T defaultValue) {
 
         Objects.requireNonNull(defaultValue, "defaultValue cannot be null");
+
+        return value;
+    }
+
+    @Override
+    public @Nullable T orNull() {
 
         return value;
     }
