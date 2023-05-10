@@ -22,10 +22,9 @@ import java.util.function.Function;
  * type on parameters and fields.
  * <p>
  * This interface is sealed to prevent the creation of additional implementations, but also to allow
- * pattern matching. When combined with record deconstruction, this allows for a safe and concise
- * method of querying an {@code Optional}.
- * <pre>{@code
- * Optional<String> optional = ...;
+ * pattern matching. When combined with record deconstruction, this allows for safe and concise
+ * querying of {@code Optional}s.
+ * <pre>{@code Optional<String> optional = ...;
  * switch (optional) {
  *     case Present(String value) -> System.out.println("Present: " + value);
  *     case Absent() -> System.out.println("Absent");
@@ -65,8 +64,7 @@ public sealed interface Optional<T extends @NonNull Object>
      * Checks whether this {@code Optional} is present.
      *
      * @return {@code true} if this {@code Optional} is present, otherwise {@code false}
-     * @helios.examples <pre>{@code
-     * Optional<Integer> present = Optional.of(5);
+     * @helios.examples <pre>{@code Optional<Integer> present = Optional.of(5);
      * assert optional.isPresent();
      *
      * Optional<Integer> absent = Optional.absent();
@@ -79,8 +77,7 @@ public sealed interface Optional<T extends @NonNull Object>
      * Checks whether this {@code Optional} is absent.
      *
      * @return {@code true} if this {@code Optional} is absent, otherwise {@code false}
-     * @helios.examples <pre>{@code
-     * Optional<Integer> absent = Optional.absent();
+     * @helios.examples <pre>{@code Optional<Integer> absent = Optional.absent();
      * assert absent.isAbsent();
      *
      * Optional<Integer> present = Optional.of(5);
@@ -95,8 +92,7 @@ public sealed interface Optional<T extends @NonNull Object>
      * @param other the {@code Optional} to fall back to
      * @return this {@code Optional} if it is present, otherwise the specified {@code Optional}
      * @throws NullPointerException if the specified optional is {@code null}.
-     * @helios.examples <pre>{@code
-     * Optional<Integer> present = Optional.of(5);
+     * @helios.examples <pre>{@code Optional<Integer> present = Optional.of(5);
      * assert present.or(Optional.of(10)).equals(optional);
      *
      * Optional<Integer> absent = Optional.absent();
@@ -113,8 +109,7 @@ public sealed interface Optional<T extends @NonNull Object>
      * @return the value of this {@code Optional} if it is present, otherwise the specified
      * default value
      * @throws NullPointerException if the default value is {@code null}.
-     * @helios.examples <pre>{@code
-     * Optional<Integer> present = Optional.of(5);
+     * @helios.examples <pre>{@code Optional<Integer> present = Optional.of(5);
      * assert present.or(10) == 5;
      *
      * Optional<Integer> absent = Optional.absent();
@@ -133,8 +128,7 @@ public sealed interface Optional<T extends @NonNull Object>
      * otherwise an absent {@code Optional}
      * @param <M> the result of the mapping function
      * @throws NullPointerException if the mapping function is {@code null} or returns {@code null}.
-     * @helios.examples <pre>{@code
-     * Optional<Integer> present = Optional.of(5);
+     * @helios.examples <pre>{@code Optional<Integer> present = Optional.of(5);
      * assert present.map(n -> n * 2).equals(Optional.of(10));
      *
      * Optional<Integer> absent = Optional.absent();
@@ -152,8 +146,7 @@ public sealed interface Optional<T extends @NonNull Object>
      * value of this {@code Optional} if it is present, otherwise an absent {@code Optional}.
      * @param <M> the result of the mapping function
      * @throws NullPointerException if the mapping function is {@code null} or returns {@code null}.
-     * @helios.examples <pre>{@code
-     * Optional<User> findUser(String username) { ... }
+     * @helios.examples <pre>{@code Optional<User> findUser(String username) { ... }
      *
      * Optional<Repository> repository = findUser("Sparky983")
      *        .flatMap(user -> user.findRepository("helios"));
