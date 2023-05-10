@@ -4,6 +4,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * An immutable container which may contain a non-null value.
@@ -100,6 +101,23 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
      * }</pre>
      */
     Optional<T> or(Optional<? extends T> other);
+
+    /**
+     * Returns this {@code Optional} if it is present, otherwise the return value of the specified
+     * {@code Optional} getter.
+     *
+     * @param otherGetter the {@code Optional} getter to fall back to
+     * @return this {@code Optional} if it is present, otherwise the return value of the specified
+     * {@code Optional} getter
+     * @throws NullPointerException if the optional getter is {@code null} or returns {@code null}.
+     * @helios.examples <pre>{@code Optional<String> findCachedUser(String username) { ... }
+     * Optional<String> findUser(String username) { ... }
+     *
+     * Optional<String> user = findCachedUser("sparky983")
+     *         .or(() -> findUser("sparky983"));
+     * }</pre>
+     */
+    Optional<T> or(Supplier<? extends Optional<? extends T>> otherGetter);
 
     /**
      * Returns the value of this {@code Optional} if it is present, otherwise the specified default

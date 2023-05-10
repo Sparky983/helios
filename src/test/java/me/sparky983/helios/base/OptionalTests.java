@@ -1,17 +1,19 @@
 package me.sparky983.helios.base;
 
+import me.sparky983.helios.optional.Absent;
+import me.sparky983.helios.optional.Optional;
+import me.sparky983.helios.optional.Present;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
+import java.util.function.Supplier;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-import me.sparky983.helios.optional.Absent;
-import me.sparky983.helios.optional.Optional;
-import me.sparky983.helios.optional.Present;
 
 class OptionalTests {
 
@@ -24,6 +26,20 @@ class OptionalTests {
      * A second dummy value to test with.
      */
     static final Object VALUE2 = new Object();
+
+    /**
+     * A {@code null} {@code Optional} to test with.
+     * <p>
+     * To avoid ugly {@code (Optional<Object>) null} casts.
+     */
+    static final Optional<Object> NULL_OPTIONAL = null;
+
+    /**
+     * A {@code null} {@code Supplier} to test with.
+     * <p>
+     * To avoid ugly {@code (Supplier<Optional<Object>>) null} casts.
+     */
+    static final Supplier<Optional<Object>> NULL_SUPPLIER = null;
 
     @Nested
     class PresentTests {
@@ -54,23 +70,53 @@ class OptionalTests {
         }
 
         @Test
-        void testOr_WhenAbsent() {
+        void testOr_Optional_WhenAbsent() {
 
             assertEquals(Optional.of(VALUE), Optional.of(VALUE).or(Optional.absent()));
         }
 
         @Test
-        void testOr_WhenPresent() {
+        void testOr_Optional_WhenPresent() {
 
             assertEquals(Optional.of(VALUE), Optional.of(VALUE).or(Optional.of(VALUE2)));
         }
 
         @Test
-        void testOr_WhenNull() {
+        void testOr_Optional_WhenNull() {
 
             var present = Optional.of(VALUE);
-            var exception = assertThrows(NullPointerException.class, () -> present.or(null));
+            var exception = assertThrows(NullPointerException.class, () ->
+                    present.or(NULL_OPTIONAL));
             assertEquals("other cannot be null", exception.getMessage());
+        }
+
+        @Test
+        void testOr_Supplier_WhenAbsent() {
+
+            assertEquals(Optional.of(VALUE), Optional.of(VALUE).or(Optional::absent));
+        }
+
+        @Test
+        void testOr_Supplier_WhenPresent() {
+
+            assertEquals(Optional.of(VALUE), Optional.of(VALUE).or(() -> Optional.of(VALUE2)));
+        }
+
+        @Test
+        void testOr_Supplier_WhenNull() {
+
+            var present = Optional.of(VALUE);
+            var exception = assertThrows(NullPointerException.class, () ->
+                    present.or(NULL_SUPPLIER));
+            assertEquals("otherGetter cannot be null", exception.getMessage());
+        }
+
+        @Test
+        void testOr_Supplier_WhenSupplierReturnsNull() {
+
+            var present = Optional.of(VALUE);
+            var exception = assertThrows(NullPointerException.class, () -> present.or(() -> null));
+            assertEquals("otherGetter cannot return null", exception.getMessage());
         }
 
         @Test
@@ -168,23 +214,53 @@ class OptionalTests {
         }
 
         @Test
-        void testOr_WhenAbsent() {
+        void testOr_Optional_WhenAbsent() {
 
             assertEquals(Optional.absent(), Optional.absent().or(Optional.absent()));
         }
 
         @Test
-        void testOr_WhenPresent() {
+        void testOr_Optional_WhenPresent() {
 
             assertEquals(Optional.of(VALUE), Optional.absent().or(Optional.of(VALUE)));
         }
 
         @Test
-        void testOr_WhenNull() {
+        void testOr_Optional_WhenNull() {
 
             var absent = Optional.absent();
-            var exception = assertThrows(NullPointerException.class, () -> absent.or(null));
+            var exception = assertThrows(NullPointerException.class, () ->
+                    absent.or(NULL_OPTIONAL));
             assertEquals("other cannot be null", exception.getMessage());
+        }
+
+        @Test
+        void testOr_Supplier_WhenAbsent() {
+
+            assertEquals(Optional.absent(), Optional.absent().or(Optional::absent));
+        }
+
+        @Test
+        void testOr_Supplier_WhenPresent() {
+
+            assertEquals(Optional.of(VALUE), Optional.absent().or(() -> Optional.of(VALUE)));
+        }
+
+        @Test
+        void testOr_Supplier_WhenNull() {
+
+            var absent = Optional.absent();
+            var exception = assertThrows(NullPointerException.class, () ->
+                    absent.or(NULL_SUPPLIER));
+            assertEquals("otherGetter cannot be null", exception.getMessage());
+        }
+
+        @Test
+        void testOr_Supplier_WhenSupplierReturnsNull() {
+
+            var absent = Optional.absent();
+            var exception = assertThrows(NullPointerException.class, () -> absent.or(() -> null));
+            assertEquals("otherGetter cannot return null", exception.getMessage());
         }
 
         @Test
