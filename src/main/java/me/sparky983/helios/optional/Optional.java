@@ -66,7 +66,8 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
      * {@code Optional}
      * @param <T> the type of the value
      * @helios.apiNote This method is intended to improve interoperability with null-based APIs.
-     * @helios.examples <pre>{@code  Map<String, String> map = ...;
+     * @helios.examples
+     * <pre>{@code  Map<String, String> map = ...;
      * Optional<String> optional = Optional.fromNullable(map.get("key"));}</pre>
      */
     static <T extends @NonNull Object> Optional<T> fromNullable(final @Nullable T value) {
@@ -87,7 +88,8 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
      * @throws NullPointerException if the {@code java.util.Optional} is {@code null}.
      * @helios.apiNote This method is intended to improve interoperability with
      * {@code java.util.Optional}.
-     * @helios.examples <pre>{@code  java.util.Optional<String> javaOptional = ...;
+     * @helios.examples
+     * <pre>{@code  java.util.Optional<String> javaOptional = ...;
      * Optional<String> optional = Optional.fromJavaOptional(optional);}</pre>
      */
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
@@ -101,7 +103,8 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
      * Checks whether this {@code Optional} is present.
      *
      * @return {@code true} if this {@code Optional} is present, otherwise {@code false}
-     * @helios.examples <pre>{@code  Optional<Integer> present = Optional.of(5);
+     * @helios.examples
+     * <pre>{@code  Optional<Integer> present = Optional.of(5);
      * assert optional.isPresent();
      *
      * Optional<Integer> absent = Optional.absent();
@@ -113,7 +116,8 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
      * Checks whether this {@code Optional} is absent.
      *
      * @return {@code true} if this {@code Optional} is absent, otherwise {@code false}
-     * @helios.examples <pre>{@code  Optional<Integer> absent = Optional.absent();
+     * @helios.examples
+     * <pre>{@code  Optional<Integer> absent = Optional.absent();
      * assert absent.isAbsent();
      *
      * Optional<Integer> present = Optional.of(5);
@@ -127,7 +131,8 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
      * @param other the {@code Optional} to fall back to
      * @return this {@code Optional} if it is present, otherwise the specified {@code Optional}
      * @throws NullPointerException if the specified optional is {@code null}.
-     * @helios.examples <pre>{@code  Optional<Integer> present = Optional.of(5);
+     * @helios.examples
+     * <pre>{@code  Optional<Integer> present = Optional.of(5);
      * assert present.or(Optional.of(10)).equals(optional);
      *
      * Optional<Integer> absent = Optional.absent();
@@ -143,7 +148,8 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
      * @return this {@code Optional} if it is present, otherwise the return value of the specified
      * {@code Optional} getter
      * @throws NullPointerException if the optional getter is {@code null} or returns {@code null}.
-     * @helios.examples <pre>{@code  Optional<String> findCachedUser(String username) { ... }
+     * @helios.examples
+     * <pre>{@code  Optional<String> findCachedUser(String username) { ... }
      * Optional<String> findUser(String username) { ... }
      *
      * Optional<String> user = findCachedUser("sparky983")
@@ -159,7 +165,8 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
      * @return the value of this {@code Optional} if it is present, otherwise the specified
      * default value
      * @throws NullPointerException if the default value is {@code null}.
-     * @helios.examples <pre>{@code  Optional<Integer> present = Optional.of(5);
+     * @helios.examples
+     * <pre>{@code  Optional<Integer> present = Optional.of(5);
      * assert present.orDefault(10) == 5;
      *
      * Optional<Integer> absent = Optional.absent();
@@ -172,7 +179,8 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
      *
      * @return the value of this {@code Optional} if it is present, otherwise {@code null}
      * @helios.apiNote This method is intended to improve interoperability with null-based APIs.
-     * @helios.examples <pre>{@code  String number = Optional.absent()
+     * @helios.examples
+     * <pre>{@code  String number = Optional.absent()
      *     .map(Object::toString)
      *     .orNull();}</pre>
      */
@@ -188,7 +196,8 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
      * otherwise an absent {@code Optional}
      * @param <M> the result of the mapping function
      * @throws NullPointerException if the mapping function is {@code null} or returns {@code null}.
-     * @helios.examples <pre>{@code  Optional<Integer> present = Optional.of(5);
+     * @helios.examples
+     * <pre>{@code  Optional<Integer> present = Optional.of(5);
      * assert present.map(n -> n * 2).equals(Optional.of(10));
      *
      * Optional<Integer> absent = Optional.absent();
@@ -205,7 +214,8 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
      * value of this {@code Optional} if it is present, otherwise an absent {@code Optional}.
      * @param <M> the result of the mapping function
      * @throws NullPointerException if the mapping function is {@code null} or returns {@code null}.
-     * @helios.examples <pre>{@code  Optional<User> findUser(String username) { ... }
+     * @helios.examples
+     * <pre>{@code  Optional<User> findUser(String username) { ... }
      *
      * Optional<Repository> repository = findUser("Sparky983")
      *        .flatMap(user -> user.findRepository("helios"));}</pre>
