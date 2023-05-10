@@ -11,6 +11,7 @@ import java.util.function.Supplier;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -59,7 +60,7 @@ class OptionalTests {
         @Test
         void testOf() {
 
-            assertInstanceOf(Present.class, Optional.of(VALUE));
+            assertEquals(VALUE, Optional.of(VALUE).value());
         }
 
         @Test
@@ -198,12 +199,6 @@ class OptionalTests {
 
     @Nested
     class AbsentTests {
-
-        @Test
-        void testAbsent() {
-
-            assertInstanceOf(Absent.class, Optional.absent());
-        }
 
         @Test
         void testIsPresent() {
