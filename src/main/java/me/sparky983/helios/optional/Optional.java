@@ -31,8 +31,7 @@ import java.util.function.Function;
  * }
  * }</pre>
  */
-public sealed interface Optional<T extends @NonNull Object>
-        permits Present, Absent {
+public sealed interface Optional<T extends @NonNull Object> permits Present, Absent {
 
     /**
      * Returns an absent {@code Optional}.
