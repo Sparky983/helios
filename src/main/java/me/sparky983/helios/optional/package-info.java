@@ -101,10 +101,9 @@
  * assert absent.flatMap(n -> Optional.absent()).isAbsent();
  * }</pre>
  * <p>
- * It is encouraged to use {@code Optional} instead of {@code null} whenever possible. However,
- * there are some APIs that require {@code null}. In these cases you can use
+ * It is encouraged to use {@code Optional} instead of {@code null} whenever possible, however
+ * there are APIs that still require {@code null}. In these cases you can use
  * {@link me.sparky983.helios.optional.Optional#fromNullable(java.lang.Object)} or
- * {@link me.sparky983.helios.optional.Optional#orNull()}
- *
+ * {@link me.sparky983.helios.optional.Optional#orNull()}.
  */
 package me.sparky983.helios.optional;
