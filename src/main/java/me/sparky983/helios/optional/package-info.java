@@ -105,5 +105,17 @@
  * there are APIs that still require {@code null}. In these cases you can use
  * {@link me.sparky983.helios.optional.Optional#fromNullable(java.lang.Object)} or
  * {@link me.sparky983.helios.optional.Optional#orNull()}.
+ * <p>
+ * <table>
+ *     <caption>{@code java.util.Optional} comparison</caption>
+ *     <tr>
+ *         <th>Method</th>
+ *         <th>{@code java.util.Optional}</th>
+ *         <th>{@code Optional}</th>
+ *         <th>Notes</th>
+ *     </tr>
+ *     <tr>
+ *
+ * </table>
  */
 package me.sparky983.helios.optional;

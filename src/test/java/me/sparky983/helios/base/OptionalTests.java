@@ -1,8 +1,6 @@
 package me.sparky983.helios.base;
 
-import me.sparky983.helios.optional.Absent;
 import me.sparky983.helios.optional.Optional;
-import me.sparky983.helios.optional.Present;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -10,9 +8,7 @@ import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -210,6 +206,32 @@ class OptionalTests {
         }
 
         @Test
+        void testFilter_WhenPredicateMatches() {
+
+            assertEquals(Optional.of(VALUE), Optional.of(VALUE).filter((o) -> {
+                assertEquals(VALUE, o);
+                return true;
+            }));
+        }
+
+        @Test
+        void testFilter_WhenPredicateDoesNotMatch() {
+
+            assertEquals(Optional.absent(), Optional.of(VALUE).filter((o) -> {
+                assertEquals(VALUE, o);
+                return false;
+            }));
+        }
+
+        @Test
+        void testFilter_WhenNull() {
+
+            var present = Optional.of(VALUE);
+            var exception = assertThrows(NullPointerException.class, () -> present.filter(null));
+            assertEquals("predicate cannot be null", exception.getMessage());
+        }
+
+        @Test
         void testToString() {
 
             assertEquals("Optional.of(" + VALUE + ")", Optional.of(VALUE).toString());
@@ -327,6 +349,20 @@ class OptionalTests {
             var absent = Optional.absent();
             var exception = assertThrows(NullPointerException.class, () -> absent.flatMap(null));
             assertEquals("mapper cannot be null", exception.getMessage());
+        }
+
+        @Test
+        void testFilter() {
+
+            assertEquals(Optional.absent(), Optional.absent().filter((o) -> fail()));
+        }
+
+        @Test
+        void testFilter_WhenNull() {
+
+            var absent = Optional.absent();
+            var exception = assertThrows(NullPointerException.class, () -> absent.filter(null));
+            assertEquals("predicate cannot be null", exception.getMessage());
         }
 
         @Test

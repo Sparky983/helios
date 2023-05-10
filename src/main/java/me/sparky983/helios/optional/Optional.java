@@ -4,6 +4,8 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.function.Function;
+import java.util.function.IntPredicate;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
@@ -222,6 +224,21 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
      */
     <M extends @NonNull Object> Optional<M> flatMap(
             Function<? super T, ? extends Optional<? extends M>> mapper);
+
+    /**
+     * If this {@code Optional} is present, returns this {@code Optional} if the value matches the
+     * given predicate, otherwise returns an absent {@code Optional}.
+     *
+     * @param predicate the predicate to apply to the value
+     * @return this {@code Optional} if the value matches the given predicate, otherwise an absent
+     * {@code Optional}
+     * @throws NullPointerException if the predicate is {@code null}.
+     * @helios.examples
+     * <pre>{@code  Optional<Integer> present = Optional.of(5);
+     * assert present.filter(n -> n % 2 == 1).equals(present);
+     * assert present.filter(n -> n % 2 == 0).isAbsent();}</pre>
+     */
+    Optional<T> filter(Predicate<? super T> predicate);
 
     /**
      * Checks whether this {@code Optional} is equal to the specified object.

@@ -5,6 +5,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
@@ -66,7 +67,7 @@ public record Present<T extends @NonNull Object>(T value) implements Optional<T>
     }
 
     @Override
-    public @Nullable T orNull() {
+    public T orNull() {
 
         return value;
     }
@@ -96,6 +97,18 @@ public record Present<T extends @NonNull Object>(T value) implements Optional<T>
                 "mapper cannot return null");
 
         return (Optional<M>) mappedValue;
+    }
+
+    @Override
+    public Optional<T> filter(final Predicate<? super T> predicate) {
+
+        Objects.requireNonNull(predicate, "predicate cannot be null");
+
+        if (predicate.test(value)) {
+            return this;
+        } else {
+            return Optional.absent();
+        }
     }
 
     @Override

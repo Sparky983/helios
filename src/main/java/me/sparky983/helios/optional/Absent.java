@@ -6,6 +6,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
@@ -80,6 +81,14 @@ public record Absent<T extends @NonNull Object>() implements Optional<T> {
             final Function<? super T, ? extends Optional<? extends M>> mapper) {
 
         Objects.requireNonNull(mapper, "mapper cannot be null");
+
+        return Optional.absent();
+    }
+
+    @Override
+    public Optional<T> filter(final Predicate<? super T> predicate) {
+
+        Objects.requireNonNull(predicate, "predicate cannot be null");
 
         return Optional.absent();
     }
