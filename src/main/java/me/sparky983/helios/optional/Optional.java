@@ -118,10 +118,10 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
      * default value
      * @throws NullPointerException if the default value is {@code null}.
      * @helios.examples <pre>{@code  Optional<Integer> present = Optional.of(5);
-     * assert present.or(10) == 5;
+     * assert present.orDefault(10) == 5;
      *
      * Optional<Integer> absent = Optional.absent();
-     * assert absent.or(10) == 10;}</pre>
+     * assert absent.orDefault(10) == 10;}</pre>
      */
     T orDefault(T defaultValue);
 
