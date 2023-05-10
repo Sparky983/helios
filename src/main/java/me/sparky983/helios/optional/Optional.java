@@ -79,6 +79,25 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
     }
 
     /**
+     * Returns an {@code Optional} converted from a {@link java.util.Optional java.util.Optional}.
+     *
+     * @param optional the {@code java.util.Optional}
+     * @return an {@code Optional} converted from the specified {@code java.util.Optional}
+     * @param <T> the type of the value
+     * @throws NullPointerException if the {@code java.util.Optional} is {@code null}.
+     * @helios.apiNote This method is intended to improve interoperability with
+     * {@code java.util.Optional}.
+     * @helios.examples <pre>{@code  java.util.Optional<String> javaOptional = ...;
+     * Optional<String> optional = Optional.fromJavaOptional(optional);}</pre>
+     */
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    static <T extends @NonNull Object> Optional<T> fromJavaOptional(
+            final java.util.Optional<T> optional) {
+
+        return optional.<Optional<T>>map(Optional::of).orElse(Optional.absent());
+    }
+
+    /**
      * Checks whether this {@code Optional} is present.
      *
      * @return {@code true} if this {@code Optional} is present, otherwise {@code false}
