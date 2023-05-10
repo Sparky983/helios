@@ -139,7 +139,7 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
      * assert present.map(n -> n * 2).equals(Optional.of(10));
      *
      * Optional<Integer> absent = Optional.absent();
-     * assert absent.map(n -> n * 2).equals(Optional.absent());}</pre>
+     * assert absent.map(n -> n * 2).isAbsent();}</pre>
      */
     <M extends @NonNull Object> Optional<M> map(Function<? super T, ? extends M> mapper);
 
