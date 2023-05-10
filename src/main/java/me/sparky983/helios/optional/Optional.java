@@ -65,6 +65,13 @@ public sealed interface Optional<T extends @NonNull Object>
      * Checks whether this {@code Optional} is present.
      *
      * @return {@code true} if this {@code Optional} is present, otherwise {@code false}
+     * @helios.examples <pre>{@code
+     * Optional<Integer> present = Optional.of(5);
+     * assert optional.isPresent();
+     *
+     * Optional<Integer> absent = Optional.absent();
+     * assert !absent.isPresent();
+     * }</pre>
      */
     boolean isPresent();
 
@@ -72,6 +79,13 @@ public sealed interface Optional<T extends @NonNull Object>
      * Checks whether this {@code Optional} is absent.
      *
      * @return {@code true} if this {@code Optional} is absent, otherwise {@code false}
+     * @helios.examples <pre>{@code
+     * Optional<Integer> absent = Optional.absent();
+     * assert absent.isAbsent();
+     *
+     * Optional<Integer> present = Optional.of(5);
+     * assert !optional.isAbsent();
+     * }</pre>
      */
     boolean isAbsent();
 
@@ -81,6 +95,13 @@ public sealed interface Optional<T extends @NonNull Object>
      * @param other the {@code Optional} to fall back to
      * @return this {@code Optional} if it is present, otherwise the specified {@code Optional}
      * @throws NullPointerException if the specified optional is {@code null}.
+     * @helios.examples <pre>{@code
+     * Optional<Integer> present = Optional.of(5);
+     * assert present.or(Optional.of(10)).equals(optional);
+     *
+     * Optional<Integer> absent = Optional.absent();
+     * assert absent.or(Optional.of(10)).equals(Optional.of(10));
+     * }</pre>
      */
     Optional<T> or(Optional<? extends T> other);
 
@@ -92,6 +113,13 @@ public sealed interface Optional<T extends @NonNull Object>
      * @return the value of this {@code Optional} if it is present, otherwise the specified
      * default value
      * @throws NullPointerException if the default value is {@code null}.
+     * @helios.examples <pre>{@code
+     * Optional<Integer> present = Optional.of(5);
+     * assert present.or(10) == 5;
+     *
+     * Optional<Integer> absent = Optional.absent();
+     * assert absent.or(10) == 10;
+     * }</pre>
      */
     T orDefault(T defaultValue);
 
@@ -105,6 +133,13 @@ public sealed interface Optional<T extends @NonNull Object>
      * otherwise an absent {@code Optional}
      * @param <M> the result of the mapping function
      * @throws NullPointerException if the mapping function is {@code null} or returns {@code null}.
+     * @helios.examples <pre>{@code
+     * Optional<Integer> present = Optional.of(5);
+     * assert present.map(n -> n * 2).equals(Optional.of(10));
+     *
+     * Optional<Integer> absent = Optional.absent();
+     * assert absent.map(n -> n * 2).equals(Optional.absent());
+     * }</pre>
      */
     <M extends @NonNull Object> Optional<M> map(Function<? super T, ? extends M> mapper);
 
@@ -117,6 +152,12 @@ public sealed interface Optional<T extends @NonNull Object>
      * value of this {@code Optional} if it is present, otherwise an absent {@code Optional}.
      * @param <M> the result of the mapping function
      * @throws NullPointerException if the mapping function is {@code null} or returns {@code null}.
+     * @helios.examples <pre>{@code
+     * Optional<User> findUser(String username) { ... }
+     *
+     * Optional<Repository> repository = findUser("Sparky983")
+     *        .flatMap(user -> user.getRepository("helios"));
+     * }</pre>
      */
     <M extends @NonNull Object> Optional<M> flatMap(
             Function<? super T, ? extends Optional<? extends M>> mapper);
