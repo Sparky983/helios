@@ -1,6 +1,7 @@
 package me.sparky983.helios.optional;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.function.Function;
 
@@ -162,7 +163,7 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
      * to the specified object or both are absent, otherwise {@code false}
      */
     @Override
-    boolean equals(Object obj);
+    boolean equals(@Nullable Object obj);
 
     /**
      * Returns the hash code of this {@code Optional}'s value, or {@code 0} if it is absent.
