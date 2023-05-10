@@ -154,4 +154,22 @@ public sealed interface Optional<T extends @NonNull Object>
      */
     <M extends @NonNull Object> Optional<M> flatMap(
             Function<? super T, ? extends Optional<? extends M>> mapper);
+
+    /**
+     * Checks whether this {@code Optional} is equal to the specified object.
+     *
+     * @param obj the object to compare to
+     * @return {@code true} if this {@code Optional}'s value is {@link Object#equals(Object) equal}
+     * to the specified object or both are absent, otherwise {@code false}
+     */
+    @Override
+    boolean equals(Object obj);
+
+    /**
+     * Returns the hash code of this {@code Optional}'s value, or {@code 0} if it is absent.
+     *
+     * @return the hash code of this {@code Optional}'s value, or {@code 0} if it is absent
+     */
+    @Override
+    int hashCode();
 }
