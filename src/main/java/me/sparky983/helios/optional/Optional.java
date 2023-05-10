@@ -156,7 +156,7 @@ public sealed interface Optional<T extends @NonNull Object>
      * Optional<User> findUser(String username) { ... }
      *
      * Optional<Repository> repository = findUser("Sparky983")
-     *        .flatMap(user -> user.getRepository("helios"));
+     *        .flatMap(user -> user.findRepository("helios"));
      * }</pre>
      */
     <M extends @NonNull Object> Optional<M> flatMap(
