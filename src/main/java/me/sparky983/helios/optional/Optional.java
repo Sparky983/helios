@@ -17,8 +17,9 @@ import java.util.function.Function;
  *
  * @param <T> the type of the value
  * @since 0.1.0
- * @helios.apiNote Similarly to {@link java.util.Optional}, {@code Optional} types aren't intended
- * to be used on parameters or fields. Use {@code null} instead.
+ * @helios.apiNote Unlike {@link java.util.Optional}, this {@code Optional} type is intended to be
+ * an option type meaning it is a replacement for {@code null}. Therefore, it is fine to use this
+ * type on parameters and fields.
  * <p>
  * This interface is sealed to prevent the creation of additional implementations, but also to allow
  * pattern matching. When combined with record deconstruction, this allows for a safe and concise
