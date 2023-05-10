@@ -56,6 +56,30 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
     }
 
     /**
+     * Returns an {@code Optional} containing the given value if it is non-null, otherwise returns
+     * an absent {@code Optional}.
+     * <p>
+     * This method is equivalent to {@code value == null ? Optional.absent() : Optional.of(value)}.
+     *
+     * @param value the value
+     * @return an {@code Optional} containing the given value if it is non-null, otherwise an absent
+     * {@code Optional}
+     * @param <T> the type of the value
+     * @helios.apiNote This method is intended to improve interoperability with {@code null} values
+     * and should be used for any API that uses {@code null}.
+     * @helios.examples <pre>{@code  Map<String, String> map = ...;
+     * Optional<String> optional = Optional.fromNullable(map.get("key"));}</pre>
+     */
+    static <T extends @NonNull Object> Optional<T> fromNullable(final @Nullable T value) {
+
+        if (value != null) {
+            return of(value);
+        } else {
+            return absent();
+        }
+    }
+
+    /**
      * Checks whether this {@code Optional} is present.
      *
      * @return {@code true} if this {@code Optional} is present, otherwise {@code false}

@@ -41,6 +41,18 @@ class OptionalTests {
      */
     static final Supplier<Optional<Object>> NULL_SUPPLIER = null;
 
+    @Test
+    void testFromNullable_WhenNull() {
+
+        assertEquals(Optional.absent(), Optional.fromNullable(null));
+    }
+
+    @Test
+    void testFromNullable_WhenNonNull() {
+
+        assertEquals(Optional.of(VALUE), Optional.fromNullable(VALUE));
+    }
+
     @Nested
     class PresentTests {
 
