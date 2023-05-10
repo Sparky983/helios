@@ -4,6 +4,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * An {@code Optional} that contains a value.
@@ -43,6 +44,14 @@ public record Present<T extends @NonNull Object>(T value) implements Optional<T>
     public Optional<T> or(final Optional<? extends T> other) {
 
         Objects.requireNonNull(other, "other cannot be null");
+
+        return this;
+    }
+
+    @Override
+    public Optional<T> or(final Supplier<? extends Optional<? extends T>> otherGetter) {
+
+        Objects.requireNonNull(otherGetter, "otherGetter cannot be null");
 
         return this;
     }

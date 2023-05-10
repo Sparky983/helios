@@ -5,6 +5,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * An absent {@code Optional}.
@@ -39,6 +40,18 @@ public record Absent<T extends @NonNull Object>() implements Optional<T> {
     }
 
     @Override
+    public Optional<T> or(final Supplier<? extends Optional<? extends T>> otherGetter) {
+
+        Objects.requireNonNull(otherGetter, "otherGetter cannot be null");
+
+        final var other = Objects.requireNonNull(
+                otherGetter.get(),
+                "otherGetter cannot return null");
+
+        return or(other);
+    }
+
+    @Override
     public T orDefault(final T defaultValue) {
 
         Objects.requireNonNull(defaultValue, "defaultValue cannot be null");
@@ -47,7 +60,8 @@ public record Absent<T extends @NonNull Object>() implements Optional<T> {
     }
 
     @Override
-    public <M extends @NonNull Object> Optional<M> map(final Function<? super T, ? extends M> mapper) {
+    public <M extends @NonNull Object> Optional<M> map(
+            final Function<? super T, ? extends M> mapper) {
 
         Objects.requireNonNull(mapper, "mapper cannot be null");
 

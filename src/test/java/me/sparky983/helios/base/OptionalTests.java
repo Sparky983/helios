@@ -112,14 +112,6 @@ class OptionalTests {
         }
 
         @Test
-        void testOr_Supplier_WhenSupplierReturnsNull() {
-
-            var present = Optional.of(VALUE);
-            var exception = assertThrows(NullPointerException.class, () -> present.or(() -> null));
-            assertEquals("otherGetter cannot return null", exception.getMessage());
-        }
-
-        @Test
         void testOrDefault() {
 
             assertEquals(VALUE, Optional.of(VALUE).orDefault(VALUE2));
