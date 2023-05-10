@@ -1,5 +1,3 @@
-import org.checkerframework.gradle.plugin.CheckerFrameworkExtension
-
 plugins {
     `java-library`
 
