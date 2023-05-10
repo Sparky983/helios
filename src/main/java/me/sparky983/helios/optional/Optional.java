@@ -5,14 +5,15 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import java.util.function.Function;
 
 /**
- * A container that represents a possibly absent value. The value is non-{@code null} and immutable.
+ * An immutable container which may contain a non-null value.
  * <p>
- * An {@code Optional} is present if it is an instance of {@link Absent} and {@link #isPresent()}
- * returns {@code true}. Otherwise, it is absent and an instance of {@link Absent}. It must be
- * either present or absent; it cannot be both.
+ * The container may be in one of two states:
+ * <ul>
+ *     <li>{@link Present}</li>
+ *     <li>{@link Absent}</li>
+ * </ul>
  * <p>
- * Optionals are value-based, equal to another {@code Optional} if and only if they are both present
- * and contain equal values (by {@link Object#equals(Object)}).
+ * Present {@code Optional}s contain a non-null value, whereas absent {@code Optional}s do not.
  *
  * @param <T> the type of the value
  * @since 0.1.0
@@ -61,8 +62,6 @@ public sealed interface Optional<T extends @NonNull Object>
 
     /**
      * Checks whether this {@code Optional} is present.
-     * <p>
-     * If this optional is present it will be an instance of {@link Present}.
      *
      * @return {@code true} if this {@code Optional} is present, otherwise {@code false}
      */
@@ -70,56 +69,53 @@ public sealed interface Optional<T extends @NonNull Object>
 
     /**
      * Checks whether this {@code Optional} is absent.
-     * <p>
-     * If this {@code Optional} is absent it will be an instance of {@link Absent}.
      *
      * @return {@code true} if this {@code Optional} is absent, otherwise {@code false}
      */
     boolean isAbsent();
 
     /**
-     * Returns this {@code Optional} if it is present, or the specified {@code Optional} if it is
-     * absent.
+     * Returns this {@code Optional} if it is present, otherwise the specified {@code Optional}.
      *
-     * @param other the {@code Optional} to return if this {@code Optional} is absent.
+     * @param other the {@code Optional} to fall back to
      * @return this {@code Optional} if it is present, otherwise the specified {@code Optional}
      * @throws NullPointerException if the specified optional is {@code null}.
      */
     Optional<T> or(Optional<? extends T> other);
 
     /**
-     * Returns the value of this {@code Optional} if it is present, or the
-     * specified default value if it is absent.
+     * Returns the value of this {@code Optional} if it is present, otherwise the specified default
+     * value.
      *
-     * @param defaultValue the value to return if this {@code Optional} is absent
-     * @return the value of this {@code Optional} if it is present, otherwise the specified default
-     * value
+     * @param defaultValue the default value to fall back to
+     * @return the value of this {@code Optional} if it is present, otherwise the specified
+     * default value
      * @throws NullPointerException if the default value is {@code null}.
      */
     T orDefault(T defaultValue);
 
     /**
-     * If the value of this {@code Optional} is present, returns an optional containing the value
-     * after the mapping function is applied, otherwise returns an absent {@code Optional}.
+     * If this {@code Optional} is present, returns an {@code Optional} containing the value of this
+     * {@code Optional} after applying the mapping function to it, otherwise returns an absent
+     * {@code Optional}.
      *
-     * @param mapper the function to apply to the value of this {@code Optional} if it is present.
-     * @return an {@code Optional} containing the result after applying the specified function to
-     * the value of this {@code Optional} if it is present, otherwise an absent {@link Optional}.
-     * @param <M> the result of the mapper function
-     * @throws NullPointerException if the specified mapper is {@code null} or returns {@code null}.
+     * @param mapper the mapping function
+     * @return an {@code Optional} containing the mapped value if this {@code Optional} is present,
+     * otherwise an absent {@code Optional}
+     * @param <M> the result of the mapping function
+     * @throws NullPointerException if the mapping function is {@code null} or returns {@code null}.
      */
     <M extends @NonNull Object> Optional<M> map(Function<? super T, ? extends M> mapper);
 
     /**
-     * If the value of this {@code Optional} is present, returns an {@code Optional} of the result
-     * after applying the mapping function to the value, otherwise returns an absent
-     * {@code Optional}.
+     * If the value of this {@code Optional} is present, returns the result of applying the mapping
+     * function to the value of this {@code Optional}, otherwise returns an absent {@code Optional}.
      *
-     * @param mapper the function to apply to the value of this {@code Optional} if it is present.
-     * @return an {@code Optional} containing the result after applying the specified function to
-     * the value of this {@code Optional} if it is present, otherwise an absent {@code Optional}.
-     * @param <M> the result of the mapper function
-     * @throws NullPointerException if the specified mapper is {@code null} or returns {@code null}.
+     * @param mapper the mapping function
+     * @return an {@code Optional} containing the result of applying the mapping function to the
+     * value of this {@code Optional} if it is present, otherwise an absent {@code Optional}.
+     * @param <M> the result of the mapping function
+     * @throws NullPointerException if the mapping function is {@code null} or returns {@code null}.
      */
     <M extends @NonNull Object> Optional<M> flatMap(
             Function<? super T, ? extends Optional<? extends M>> mapper);
