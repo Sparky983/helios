@@ -9,13 +9,8 @@ import java.util.function.Supplier;
 /**
  * An immutable container which may contain a non-null value.
  * <p>
- * The container may be in one of two states:
- * <ul>
- *     <li>{@link Present}</li>
- *     <li>{@link Absent}</li>
- * </ul>
- * <p>
- * Present {@code Optional}s contain a non-null value, whereas absent {@code Optional}s do not.
+ * If the {@code Optional} contains a value, it is represented by a {@link Present} containing the
+ * value, otherwise it is represented by an {@link Absent}.
  *
  * @param <T> the type of the value
  * @since 0.1.0
