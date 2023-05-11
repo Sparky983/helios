@@ -65,6 +65,18 @@
  *         <td>{@code other}</td>
  *         <td>{@code other}</td>
  *     </tr>
+ *     <tr>
+ *         <td>{@link me.sparky983.helios.optional.Optional#orNull()}</td>
+ *         <td>{@code Optional.of(value)}</td>
+ *         <td>N/A</td>
+ *         <td>{@code value}</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link me.sparky983.helios.optional.Optional#orNull()}</td>
+ *         <td>{@code Optional.absent()}</td>
+ *         <td>N/A</td>
+ *         <td>{@code null}</td>
+ *     </tr>
  * </table>
  * If you want to get the value out of an {@code Optional}, you can destructure it using record
  * patterns:
