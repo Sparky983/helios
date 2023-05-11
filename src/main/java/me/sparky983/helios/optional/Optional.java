@@ -4,7 +4,6 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.function.Function;
-import java.util.function.IntPredicate;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
