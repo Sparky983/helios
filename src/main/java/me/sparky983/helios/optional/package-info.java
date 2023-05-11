@@ -1,4 +1,6 @@
+// @formatter:off
 /**
+ * <h2>Shortcomings of null</h2>
  * Traditionally in Java, we have used {@code null} to represent the absence of a value. However,
  * this has many shortcomings such as:
  * <ul>
@@ -6,7 +8,7 @@
  *     <li>{@code null} is not type-safe</li>
  *     <li>{@code null} is not nestable</li>
  * </ul>
- * <p>
+ * <h2>Optional</h2>
  * We can solve these problems by using {@link me.sparky983.helios.optional.Optional} instead of
  * {@code null}. {@code Optional} provides a safe way for dealing with and representing possibly
  * absent values. An {@code Optional} that contains a value is called "present" and ones that don't
@@ -16,9 +18,6 @@
  *
  * Optional<Integer> absent = Optional.absent();
  * assert absent.isAbsent();}</pre>
- * <p>
- * Unlike {@link java.util.Optional java.util.Optional}, {@code Optional} is intended to fully
- * replace {@code null} so it is fine to use this type on parameters and fields.
  * <p>
  * {@code Optional} provides a set of methods to query the value of the {@code Optional}:
  * <table border="1">
@@ -54,13 +53,13 @@
  *         <td>{@code Optional.absent()}</td>
  *     </tr>
  *     <tr>
- *         <td>{@link me.sparky983.helios.optional.Optional#orDefault(java.lang.Object)}</td>
+ *         <td>{@link me.sparky983.helios.optional.Optional#orDefault(Object)}</td>
  *         <td>{@code Optional.of(value)}</td>
  *         <td>{@code other}</td>
  *         <td>{@code value}</td>
  *     </tr>
  *     <tr>
- *         <td>{@link me.sparky983.helios.optional.Optional#orDefault(java.lang.Object)}</td>
+ *         <td>{@link me.sparky983.helios.optional.Optional#orDefault(Object)}</td>
  *         <td>{@code Optional.absent()}</td>
  *         <td>{@code other}</td>
  *         <td>{@code other}</td>
@@ -77,32 +76,22 @@
  *         <td>N/A</td>
  *         <td>{@code null}</td>
  *     </tr>
+ *     <tr>
+ *         <td>{@link me.sparky983.helios.optional.Present#value()}</td>
+ *         <td>{@code Optional.of(value)}</td>
+ *         <td>N/A</td>
+ *         <td>{@code value}</td>
+ *     </tr>
  * </table>
- * If you want to get the value out of an {@code Optional}, you can destructure it using record
- * patterns:
- * <pre>{@code  Optional<Integer> present = ...;
- * switch (present) {
- *     case Present(Integer value) -> System.out.println(value);
- *     case Absent() -> System.out.println("No value");
- * }
- *
- * if (present instanceof Present(Integer value)) {
- *     System.out.println(value);
- * }}</pre>
- * or if you know the {@code Optional} is present you can use
- * {@link me.sparky983.helios.optional.Present#value()}:
- * <pre>{@code  Present<Integer> present = Optional.of(10);
- * System.out.println(present.value());}</pre>
  * <p>
  * In addition to the methods above, {@code Optional} provides an
  * {@link me.sparky983.helios.optional.Optional#map(java.util.function.Function)} method that allow
- * you to transform the value inside the {@code Optional}:
+ * you to transform the value inside an {@code Optional}:
  * <pre>{@code  Optional<Integer> present = Optional.of(5);
  * assert present.map(n -> n * 2).equals(Optional.of(10));
  *
  * Optional<Integer> absent = Optional.absent();
- * assert absent.map(n -> n * 2).isAbsent();
- * }</pre>
+ * assert absent.map(n -> n * 2).isAbsent();}</pre>
  * And an {@link me.sparky983.helios.optional.Optional#flatMap(java.util.function.Function)} method:
  * <pre>{@code  Optional<Integer> present = Optional.of(5);
  * assert present.flatMap(n -> Optional.of(n * 2)).equals(Optional.of(10));
@@ -110,24 +99,155 @@
  *
  * Optional<Integer> absent = Optional.absent();
  * assert absent.flatMap(n -> Optional.of(n * 2)).isAbsent();
- * assert absent.flatMap(n -> Optional.absent()).isAbsent();
- * }</pre>
- * <p>
- * It is encouraged to use {@code Optional} instead of {@code null} whenever possible, however
- * there are APIs that still require {@code null}. In these cases you can use
- * {@link me.sparky983.helios.optional.Optional#fromNullable(java.lang.Object)} or
- * {@link me.sparky983.helios.optional.Optional#orNull()}.
- * <p>
- * <table>
+ * assert absent.flatMap(n -> Optional.absent()).isAbsent();}</pre>
+ * <h2><a id="idioms">Idioms</a></h2>
+ * <h3>Pattern Matching</h3>
+ * {@code Optional} uses subtyping for each variant so you can advantage of Java 15's pattern
+ * matching to access the value of an {@code Optional}:
+ * <pre>{@code  Optional<Integer> optional = Optional.of(5);
+ * if (optional instanceof Present<Integer> present) {
+ *     System.out.println(present.value());
+ * }}</pre>
+ * ... and since {@code Optional}s are sealed you can use pattern matching for switch (which is also
+ * in preview since Java 17) to check all cases exhaustively:
+ * <pre>{@code  switch (optional) {
+ *     case Present<Integer> present -> System.out.println(present.value());
+ *     case Absent -> System.out.println("Absent");
+ * }}</pre>
+ * <h3>Record Destructuring</h3>
+ * {@code Optional} variants are records so you can use record destructuring to access their
+ * components when pattern matching:
+ * <pre>{@code  Optional<Integer> optional = Optional.of(5);
+ * if (optional instanceof Present(Integer value)) {
+ *     System.out.println(value);
+ * }
+ * // or with switch
+ * switch (optional) {
+ *     case Present(Integer value) -> System.out.println(value());
+ *     case Absent -> System.out.println("Absent");
+ * }}</pre>
+ * <h2>Null Interoperability</h2>
+ * The use of {@code Optional} is encouraged over {@code null}, but there are times when you need to
+ * such as when interacting with legacy APIs. {@code Optional} provides methods for dealing with
+ * these cases:
+ * <ul>
+ *     <li>{@link me.sparky983.helios.optional.Optional#fromNullable(java.lang.Object)} converts a
+ *     nullable reference to an {@code Optional}</li>
+ *     <li>{@link me.sparky983.helios.optional.Optional#orNull()} convert an {@code Optional} to a
+ *     nullable reference</li>
+ * </ul>
+ * <h2>Comparison with java.util.Optional</h2>
+ * The main difference between {@link java.util.Optional java.util.Optional} and {@code Optional}
+ * is that {@code Optional} is an implementation of the
+ * <a href="https://en.wikipedia.org/wiki/Option_type">option type</a> so use on fields and methods
+ * is encouraged.
+ * Aside from that, the two APIs are very similar except a few subtle differences:
+ * <table border="1">
  *     <caption>{@code java.util.Optional} comparison</caption>
  *     <tr>
- *         <th>Method</th>
- *         <th>{@code java.util.Optional}</th>
  *         <th>{@code Optional}</th>
+ *         <th>{@code java.util.Optional}</th>
  *         <th>Notes</th>
  *     </tr>
+*      <tr>
+ *          <td>{@link me.sparky983.helios.optional.Optional#absent()}</td>
+ *          <td>{@link java.util.Optional#empty()}</td>
+ *          <td></td>
+ *     </tr>
  *     <tr>
- *
+ *         <td>{@link me.sparky983.helios.optional.Optional#of(Object)}</td>
+ *         <td>{@link java.util.Optional#of(Object)}</td>
+ *         <td></td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link me.sparky983.helios.optional.Optional#fromNullable(Object)}</td>
+ *         <td>{@link java.util.Optional#ofNullable(Object)}</td>
+ *         <td></td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link me.sparky983.helios.optional.Optional#isPresent()}</td>
+ *         <td>{@link java.util.Optional#isPresent()}</td>
+ *         <td></td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link me.sparky983.helios.optional.Optional#isAbsent()}</td>
+ *         <td>{@link java.util.Optional#isEmpty()}</td>
+ *         <td></td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link me.sparky983.helios.optional.Optional#or(me.sparky983.helios.optional.Optional)}</td>
+ *         <td>N/A</td>
+ *         <td>{@code java.util.Optional} uses only a supplier based method (see {@link java.util.Optional#or(java.util.function.Supplier)}</td>
+ *         <td></td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link me.sparky983.helios.optional.Optional#or(java.util.function.Supplier)}</td>
+ *         <td>{@link java.util.Optional#or(java.util.function.Supplier)}</td>
+ *         <td></td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link me.sparky983.helios.optional.Optional#orDefault(Object)}</td>
+ *         <td>{@link java.util.Optional#orElse(Object)}</td>
+ *         <td>{@code java.util.Optional.orElse()} permits {@code null}</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link me.sparky983.helios.optional.Optional#orGet(java.util.function.Supplier)}</td>
+ *         <td>{@link java.util.Optional#orElseGet(java.util.function.Supplier)}</td>
+ *         <td>{@code java.util.Optional.orGet()} permits returning {@code null}</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link me.sparky983.helios.optional.Optional#orNull()}</td>
+ *         <td>N/A</td>
+ *         <td>You have to use {@code java.util.Optional.orElse(null)}</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link me.sparky983.helios.optional.Optional#map(java.util.function.Function)}</td>
+ *         <td>{@link java.util.Optional#map(java.util.function.Function)}</td>
+ *         <td>{@code java.util.Optional.map()} permits returning {@code null}</td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link me.sparky983.helios.optional.Optional#flatMap(java.util.function.Function)}</td>
+ *         <td>{@link java.util.Optional#flatMap(java.util.function.Function)}</td>
+ *         <td></td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link me.sparky983.helios.optional.Optional#filter(java.util.function.Predicate)}</td>
+ *         <td>{@link java.util.Optional#filter(java.util.function.Predicate)}</td>
+ *         <td></td>
+ *     </tr>
+ *     <tr>
+ *         <td>{@link me.sparky983.helios.optional.Present#value()}</td>
+ *         <td>{@link java.util.Optional#get()}</td>
+ *         <td>{@code Present.value()} is guaranteed to be safe at compile-time (unless casted) as
+ *         opposed to {@code java.util.Optional.get()} which is not safe and also has a deceptive
+ *         name</td>
+ *     </tr>
+ *     <tr>
+ *         <td>N/A</td>
+ *         <td>{@link java.util.Optional#ifPresent(java.util.function.Consumer)}</td>
+ *         <td>See <a href="#idioms">Idioms</a></td>
+ *    </tr>
+ *    <tr>
+ *        <td>N/A</td>
+ *        <td>{@link java.util.Optional#ifPresentOrElse(java.util.function.Consumer, java.lang.Runnable)}</td>
+ *        <td>See <a href="#idioms">Idioms</a></td>
+ *    </tr>
+ *    <tr>
+ *        <td>N/A</td>
+ *        <td>{@link java.util.Optional#stream()}</td>
+ *        <td>You have to do {@code Optional.map(Stream::of).orElse(Stream.of())}</td>
+ *    </tr>
+ *    <tr>
+ *        <td>N/A</td>
+ *        <td>{@link java.util.Optional#orElseThrow()}</td>
+ *        <td></td>
+ *    </tr>
+ *    <tr>
+ *        <td>N/A</td>
+ *        <td>{@link java.util.Optional#orElseThrow(java.util.function.Supplier)}</td>
+ *        <td></td>
+ *    </tr>
  * </table>
  */
 package me.sparky983.helios.optional;
+// @formatter:on
