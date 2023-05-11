@@ -10,6 +10,9 @@ import java.util.function.Supplier;
 /**
  * An immutable container which may contain a non-null value.
  * <p>
+ * For a more user-friendly guide instead of API specification, see the
+ * <a href="package-summary">package summary</a>.
+ * <p>
  * If the {@code Optional} contains a value, it is represented by a {@link Present} containing the
  * value, otherwise it is represented by an {@link Absent}.
  *
