@@ -62,6 +62,17 @@ public record Absent<T extends @NonNull Object>() implements Optional<T> {
     }
 
     @Override
+    public T orGet(final Supplier<? extends T> defaultValueGetter) {
+
+        Objects.requireNonNull(defaultValueGetter, "defaultValueGetter cannot be null");
+
+        final var defaultValue = defaultValueGetter.get();
+        Objects.requireNonNull(defaultValue, "defaultValueGetter cannot return null");
+
+        return defaultValue;
+    }
+
+    @Override
     public @Nullable T orNull() {
 
         return null;

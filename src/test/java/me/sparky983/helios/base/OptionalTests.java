@@ -1,6 +1,7 @@
 package me.sparky983.helios.base;
 
 import me.sparky983.helios.optional.Optional;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -145,6 +146,20 @@ class OptionalTests {
             var present = Optional.of(VALUE);
             var exception = assertThrows(NullPointerException.class, () -> present.orDefault(null));
             assertEquals("defaultValue cannot be null", exception.getMessage());
+        }
+
+        @Test
+        void testOrGet() {
+
+            assertEquals(VALUE, Optional.of(VALUE).orGet(Assertions::fail));
+        }
+
+        @Test
+        void testOrGet_WhenNull() {
+
+            var present = Optional.of(VALUE);
+            var exception = assertThrows(NullPointerException.class, () -> present.orGet(null));
+            assertEquals("defaultValueGetter cannot be null", exception.getMessage());
         }
 
         @Test
@@ -315,6 +330,28 @@ class OptionalTests {
             var absent = Optional.absent();
             var exception = assertThrows(NullPointerException.class, () -> absent.orDefault(null));
             assertEquals("defaultValue cannot be null", exception.getMessage());
+        }
+
+        @Test
+        void testOrGet() {
+
+            assertEquals(VALUE, Optional.absent().orGet(() -> VALUE));
+        }
+
+        @Test
+        void testOrGet_WhenNull() {
+
+            var absent = Optional.absent();
+            var exception = assertThrows(NullPointerException.class, () -> absent.orGet(null));
+            assertEquals("defaultValueGetter cannot be null", exception.getMessage());
+        }
+
+        @Test
+        void testOrGet_WhenSupplierReturnsNull() {
+
+            var absent = Optional.absent();
+            var exception = assertThrows(NullPointerException.class, () -> absent.orGet(() -> null));
+            assertEquals("defaultValueGetter cannot return null", exception.getMessage());
         }
 
         @Test

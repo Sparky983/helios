@@ -177,6 +177,24 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
     T orDefault(T defaultValue);
 
     /**
+     * Returns the value of this {@code Optional} if it is present, otherwise the value returned by
+     * the default value getter.
+     *
+     * @param defaultValueGetter the default value getter to fall back to
+     * @return the value of this {@code Optional} if it is present, otherwise the value returned by
+     * the default value getter
+     * @throws NullPointerException if the default value getter is {@code null} or returns
+     * {@code null}.
+     * @helios.examples
+     * <pre>{@code  Optional<Integer> present = Optional.of(5);
+     * assert present.orGet(() -> 10) == 5;
+     *
+     * Optional<Integer> absent = Optional.absent();
+     * assert absent.orGet(() -> 10) == 10;}</pre>
+     */
+    T orGet(Supplier<? extends T> defaultValueGetter);
+
+    /**
      * Returns the value of this {@code Optional} if it is present, otherwise {@code null}.
      *
      * @return the value of this {@code Optional} if it is present, otherwise {@code null}
