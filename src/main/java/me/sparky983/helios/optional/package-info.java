@@ -1,5 +1,6 @@
 // @formatter:off
 /**
+ * Classes for representing possibly absent values.
  * <h2>Shortcomings of null</h2>
  * Traditionally in Java, we have used {@code null} to represent the absence of a value. However,
  * this has many shortcomings such as:
