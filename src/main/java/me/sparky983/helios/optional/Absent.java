@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
- * An absent {@code Optional}.
+ * An {@code Optional} that contains no value.
  *
  * @param <T> the type of the value
  * @since 0.1.0
