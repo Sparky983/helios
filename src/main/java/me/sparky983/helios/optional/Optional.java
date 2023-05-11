@@ -19,7 +19,7 @@ import java.util.function.Supplier;
  * @param <T> the type of the value
  * @since 0.1.0
  * @helios.apiNote Unlike {@link java.util.Optional java.util.Optional}, this {@code Optional} type
- * is intended to be an option type meaning it is a replacement for {@code null}. Therefore, it is
+ * is intended to be an option maybe meaning it is a replacement for {@code null}. Therefore, it is
  * fine to use this type on parameters and fields.
  * <p>
  * This interface is sealed to prevent the creation of additional implementations, but also to allow
