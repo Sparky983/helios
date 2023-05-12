@@ -151,7 +151,7 @@
  *         <th>{@code java.util.Optional}</th>
  *         <th>Notes</th>
  *     </tr>
-*      <tr>
+ *      <tr>
  *          <td>{@link me.sparky983.helios.optional.Optional#absent()}</td>
  *          <td>{@link java.util.Optional#empty()}</td>
  *          <td></td>
