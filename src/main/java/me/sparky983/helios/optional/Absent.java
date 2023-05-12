@@ -78,8 +78,17 @@ public record Absent<T extends @NonNull Object>() implements Optional<T> {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @helios.apiNote This method's return type is {@code Absent} to improve compiler errors. For
+     * example, the following code will not compile:
+     * <pre>{@code  if (Optional.absent().map(Function.identity()) instanceof Present) {
+     *     ...
+     * }}</pre>
+     */
     @Override
-    public <M extends @NonNull Object> Optional<M> map(
+    public <M extends @NonNull Object> Absent<M> map(
             final Function<? super T, ? extends M> mapper) {
 
         Objects.requireNonNull(mapper, "mapper cannot be null");
@@ -87,8 +96,17 @@ public record Absent<T extends @NonNull Object>() implements Optional<T> {
         return Optional.absent();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @helios.apiNote This method's return type is {@code Absent} to improve compiler errors. For
+     * example, the following code will not compile:
+     * <pre>{@code  if (Optional.absent().flatMap(Optional::of) instanceof Present) {
+     *     ...
+     * }}</pre>
+     */
     @Override
-    public <M extends @NonNull Object> Optional<M> flatMap(
+    public <M extends @NonNull Object> Absent<M> flatMap(
             final Function<? super T, ? extends Optional<? extends M>> mapper) {
 
         Objects.requireNonNull(mapper, "mapper cannot be null");
@@ -96,8 +114,17 @@ public record Absent<T extends @NonNull Object>() implements Optional<T> {
         return Optional.absent();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @helios.apiNote This method's return type is {@code Absent} to improve compiler errors. For
+     * example, the following code will not compile:
+     * <pre>{@code  if (Optional.absent().filter(value -> true) instanceof Present) {
+     *     ...
+     * }}</pre>
+     */
     @Override
-    public Optional<T> filter(final Predicate<? super T> predicate) {
+    public Absent<T> filter(final Predicate<? super T> predicate) {
 
         Objects.requireNonNull(predicate, "predicate cannot be null");
 

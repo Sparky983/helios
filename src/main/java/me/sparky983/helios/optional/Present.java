@@ -41,16 +41,34 @@ public record Present<T extends @NonNull Object>(T value) implements Optional<T>
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @helios.apiNote This method's return type is {@code Absent} to improve compiler errors. For
+     * example, the following code will not compile:
+     * <pre>{@code  if(Optional.of(5).or(Optional.absent()) instanceof Absent) {
+     *     ...
+     * }}</pre>
+     */
     @Override
-    public Optional<T> or(final Optional<? extends T> other) {
+    public Present<T> or(final Optional<? extends T> other) {
 
         Objects.requireNonNull(other, "other cannot be null");
 
         return this;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @helios.apiNote This method's return type is {@code Absent} to improve compiler errors. For
+     * example, the following code will not compile:
+     * <pre>{@code  if(Optional.of(5).or(Optional::absent) instanceof Absent) {
+     *     ...
+     * }}</pre>
+     */
     @Override
-    public Optional<T> or(final Supplier<? extends Optional<? extends T>> otherGetter) {
+    public Present<T> or(final Supplier<? extends Optional<? extends T>> otherGetter) {
 
         Objects.requireNonNull(otherGetter, "otherGetter cannot be null");
 
@@ -79,8 +97,17 @@ public record Present<T extends @NonNull Object>(T value) implements Optional<T>
         return value;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @helios.apiNote This method's return type is {@code Absent} to improve compiler errors. For
+     * example, the following code will not compile:
+     * <pre>{@code  if(Optional.of(5).map(Function.identity()) instanceof Absent) {
+     *     ...
+     * }}</pre>
+     */
     @Override
-    public <M extends @NonNull Object> Optional<M> map(
+    public <M extends @NonNull Object> Present<M> map(
             final Function<? super T, ? extends M> mapper) {
 
         Objects.requireNonNull(mapper, "mapper cannot be null");
