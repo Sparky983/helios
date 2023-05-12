@@ -19,12 +19,12 @@ import java.util.function.Supplier;
  * @param <T> the type of the value
  * @since 0.1.0
  * @helios.apiNote Unlike {@link java.util.Optional java.util.Optional}, this {@code Optional} type
- * is intended to be an option maybe meaning it is a replacement for {@code null}. Therefore, it is
- * fine to use this type on parameters and fields.
+ * is intended to be an <a href="https://en.wikipedia.org/wiki/Option_type">option type</a> meaning
+ * it is a replacement for {@code null}. Therefore, it is fine to use this type on parameters and
+ * fields.
  * <p>
- * This interface is sealed to prevent the creation of additional implementations, but also to allow
- * pattern matching. When combined with record deconstruction, this allows for safe and concise
- * querying of {@code Optional}s.
+ * This interface is sealed and the implementations are records, so you can easily combine switch
+ * pattern matching and record patterns (Java 21+ features) to handle the different cases:
  * <pre>{@code  Optional<String> optional = ...;
  * switch (optional) {
  *     case Present(String value) -> System.out.println("Present: " + value);

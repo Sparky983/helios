@@ -93,7 +93,8 @@
  *
  * Optional<Integer> absent = Optional.absent();
  * assert absent.map(n -> n * 2).isAbsent();}</pre>
- * And an {@link me.sparky983.helios.optional.Optional#flatMap(java.util.function.Function)} method:
+ * And an {@link me.sparky983.helios.optional.Optional#flatMap(java.util.function.Function)} method
+ * if the transformed value is another {@code Optional}:
  * <pre>{@code  Optional<Integer> present = Optional.of(5);
  * assert present.flatMap(n -> Optional.of(n * 2)).equals(Optional.of(10));
  * assert present.flatMap(n -> Optional.absent()).isAbsent();
@@ -103,21 +104,21 @@
  * assert absent.flatMap(n -> Optional.absent()).isAbsent();}</pre>
  * <h2><a id="idioms">Idioms</a></h2>
  * <h3>Pattern Matching</h3>
- * {@code Optional} uses subtyping for each variant so you can advantage of Java 15's pattern
+ * {@code Optional} uses subtyping for each variant, so you can advantage of Java 15's pattern
  * matching to access the value of an {@code Optional}:
  * <pre>{@code  Optional<Integer> optional = Optional.of(5);
  * if (optional instanceof Present<Integer> present) {
  *     System.out.println(present.value());
  * }}</pre>
- * ... and since {@code Optional}s are sealed you can use pattern matching for switch (which is also
- * in preview since Java 17) to check all cases exhaustively:
+ * ... and since {@code Optional}s are also sealed you can omit the {@code default} branch in
+ * switch statements (that use pattern matching for switch which is in preview since Java 27):
  * <pre>{@code  switch (optional) {
  *     case Present<Integer> present -> System.out.println(present.value());
  *     case Absent -> System.out.println("Absent");
  * }}</pre>
- * <h3>Record Destructuring</h3>
- * {@code Optional} variants are records so you can use record destructuring to access their
- * components when pattern matching:
+ * <h3>Record Deconstructing</h3>
+ * {@code Optional} variants are records, so you can use record patterns (which are in preview since
+ * Java 20) to access their components:
  * <pre>{@code  Optional<Integer> optional = Optional.of(5);
  * if (optional instanceof Present(Integer value)) {
  *     System.out.println(value);
@@ -128,9 +129,9 @@
  *     case Absent -> System.out.println("Absent");
  * }}</pre>
  * <h2>Null Interoperability</h2>
- * The use of {@code Optional} is encouraged over {@code null}, but there are times when you need to
- * such as when interacting with legacy APIs. {@code Optional} provides methods for dealing with
- * these cases:
+ * The use of {@code Optional} over {@code nll} is encouraged, but there are times when it's not
+ * possible such as when interacting with legacy APIs. {@code Optional} provides methods for dealing
+ * with these cases:
  * <ul>
  *     <li>{@link me.sparky983.helios.optional.Optional#fromNullable(java.lang.Object)} converts a
  *     nullable reference to an {@code Optional}</li>
