@@ -246,6 +246,13 @@ class OptionalTests {
         }
 
         @Test
+        void testHashCode() {
+
+            var value = new Object();
+            assertEquals(value.hashCode(), Optional.of(value).hashCode());
+        }
+
+        @Test
         void testToString() {
 
             assertEquals("Optional.of(" + VALUE + ")", Optional.of(VALUE).toString());
@@ -399,6 +406,12 @@ class OptionalTests {
             var absent = Optional.absent();
             var exception = assertThrows(NullPointerException.class, () -> absent.filter(null));
             assertEquals("predicate cannot be null", exception.getMessage());
+        }
+
+        @Test
+        void testHashCode() {
+
+            assertEquals(0, Optional.absent().hashCode());
         }
 
         @Test

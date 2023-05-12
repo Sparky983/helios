@@ -132,6 +132,12 @@ public record Absent<T extends @NonNull Object>() implements Optional<T> {
     }
 
     @Override
+    public int hashCode() {
+
+        return 0;
+    }
+
+    @Override
     public String toString() {
 
         return "Optional.absent()";

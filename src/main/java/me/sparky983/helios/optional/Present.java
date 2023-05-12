@@ -146,6 +146,12 @@ public record Present<T extends @NonNull Object>(T value) implements Optional<T>
     }
 
     @Override
+    public int hashCode() {
+
+        return value.hashCode();
+    }
+
+    @Override
     public String toString() {
 
         return "Optional.of(" + value + ")";
