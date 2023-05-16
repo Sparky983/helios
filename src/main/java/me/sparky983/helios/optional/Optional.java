@@ -41,7 +41,7 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
      * @helios.implNote This method returns a singleton instance of {@link Absent}.
      */
     @SuppressWarnings("unchecked")
-    static <T extends @NonNull Object> Absent<T> absent() {
+    static <T extends @NonNull Object> Optional<T> absent() {
 
         return (Absent<T>) Absent.ABSENT;
     }
@@ -54,7 +54,7 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
      * @param <T> the type of the value
      * @throws NullPointerException if the value is {@code null}.
      */
-    static <T extends @NonNull Object> Present<T> of(final T value) {
+    static <T extends @NonNull Object> Optional<T> of(final T value) {
 
         return new Present<>(value);
     }
