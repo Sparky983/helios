@@ -19,7 +19,7 @@ import java.util.function.Supplier;
 public record Present<T extends @NonNull Object>(T value) implements Optional<T> {
 
     /**
-     * Constructs a new {@code Present} {@code Optional} with the specified value.
+     * Constructs a new {@code Present} {@code Optional} with the given value.
      *
      * @param value the value
      * @throws NullPointerException if the value is {@code null}.
