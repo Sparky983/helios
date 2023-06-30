@@ -66,8 +66,8 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
     }
 
     /**
-     * Returns an {@code Optional} containing the given value if it is non-null, otherwise returns
-     * an absent {@code Optional}.
+     * Returns an {@code Optional} containing the given value if it is non-null, otherwise an absent
+     * {@code Optional}.
      * <p>
      * This method is equivalent to {@code value == null ? Optional.absent() : Optional.of(value)}.
      *
@@ -91,6 +91,10 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
 
     /**
      * Returns an {@code Optional} converted from a {@link java.util.Optional java.util.Optional}.
+     * <p>
+     * If the given {@link java.util.Optional java.util.Optional} is present, this returns an
+     * {@code Optional} containing the value of the {@link java.util.Optional java.util.Optional}, otherwise
+     * an absent {@code Optional}.
      *
      * @param optional the {@code java.util.Optional}
      * @return an {@code Optional} converted from the given {@code java.util.Optional}
@@ -140,7 +144,7 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
      *
      * @param other the fallback {@code Optional}
      * @return this {@code Optional} if present, otherwise the given {@code Optional}
-     * @throws NullPointerException if the given optional is {@code null}.
+     * @throws NullPointerException if the given {@code Optional} is {@code null}.
      * @helios.examples
      * <pre>{@code  Optional<Integer> present = Optional.of(5);
      * assert present.or(Optional.of(10)).equals(optional);
@@ -181,11 +185,11 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
     T orDefault(T defaultValue);
 
     /**
-     * Returns the value of this {@code Optional} if present, otherwise the value returned by the
+     * Returns the value of this {@code Optional} if present, otherwise the return value of the
      * given supplier.
      *
      * @param defaultValueGetter the fallback value supplier
-     * @return the value of this {@code Optional} if present, otherwise the value returned by the
+     * @return the value of this {@code Optional} if present, otherwise the return value of the
      * given supplier
      * @throws NullPointerException if the given supplier is {@code null} or returns {@code null}.
      * @helios.examples
@@ -210,8 +214,8 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
     @Nullable T orNull();
 
     /**
-     * If this {@code Optional} is present, returns an {@code Optional} containing the value of this
-     * after applying the given mapper to it, otherwise returns an absent {@code Optional}.
+     * If this {@code Optional} is present, returns an {@code Optional} containing the value after
+     * applying the given mapper to it, otherwise returns an absent {@code Optional}.
      *
      * @param mapper the mapper function
      * @return an {@code Optional} containing the mapped value if this {@code Optional} is present,
@@ -246,8 +250,8 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
             Function<? super T, ? extends Optional<? extends M>> mapper);
 
     /**
-     * If this {@code Optional} is present, returns this {@code Optional} if the value matches the
-     * given predicate, otherwise returns an absent {@code Optional}.
+     * If this {@code Optional} is present and the value matches the given predicate, returns this
+     * {@code Optional}, otherwise returns an absent {@code Optional}.
      *
      * @param predicate the predicate
      * @return this {@code Optional} if the value matches the given predicate, otherwise an absent
