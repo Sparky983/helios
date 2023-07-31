@@ -141,7 +141,8 @@
  * }
  * }
  * <h3>Record Deconstructing</h3>
- * Both the {@code Present} and {@code Absent} classes are records, which allows for the use of
+ * Both the {@link me.sparky983.helios.optional.Present} and
+ * {@link me.sparky983.helios.optional.Absent} classes are records, which allows for the use of
  * record patterns (which are in preview since Java 20):
  * {@snippet :
  * Optional<Integer> optional = Optional.of(5);
@@ -285,7 +286,7 @@
  *    <tr>
  *        <td>N/A</td>
  *        <td>{@link java.util.Optional#stream()}</td>
- *        <td>You have to do {@snippet : Optional.map(Stream::of).orElse(Stream.of())}</td>
+ *        <td>You have to do {@code Optional.map(Stream::of).orElse(Stream.of())}</td>
  *    </tr>
  *    <tr>
  *        <td>N/A</td>
