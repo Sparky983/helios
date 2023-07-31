@@ -156,7 +156,7 @@
  * }
  * }
  * <h2>Null Interoperability</h2>
- * The use of {@link me.sparky983.helios.optional.Optional} over {@code nll} is encouraged, however
+ * The use of {@link me.sparky983.helios.optional.Optional} over {@code null} is encouraged, however
  * there are times when this is not possible such as when interacting with legacy APIs.
  * {@link me.sparky983.helios.optional.Optional} provides several methods for dealing with these
  * cases:
