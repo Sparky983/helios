@@ -1,4 +1,3 @@
-// @formatter:off
 /**
  * Classes for representing possibly absent values.
  * <h2>Shortcomings of null</h2>
@@ -14,11 +13,13 @@
  * {@code null}. {@code Optional} provides a safe way of handling and representing possibly
  * absent values. An {@code Optional} that contains a value is called "present" and ones that don't
  * are called "absent".
- * <pre>{@code  Optional<Integer> present = Optional.of(5);
+ * {@snippet :
+ * Optional<Integer> present = Optional.of(5);
  * assert optional.isPresent();
  *
  * Optional<Integer> absent = Optional.absent();
- * assert absent.isAbsent();}</pre>
+ * assert absent.isAbsent();
+ * }
  * <p>
  * A set of methods for querying the value are provided by {@code Optional}:
  * <table border="1">
@@ -88,40 +89,47 @@
  * Additionally, {@code Optional} provides an
  * {@link me.sparky983.helios.optional.Optional#map(java.util.function.Function)} method that
  * transforms an {@code Optional}'s value:
- * <pre>{@code  Optional<Integer> present = Optional.of(5);
+ * {@snippet : Optional<Integer> present = Optional.of(5);
  * assert present.map(n -> n * 2).equals(Optional.of(10));
  *
  * Optional<Integer> absent = Optional.absent();
- * assert absent.map(n -> n * 2).isAbsent();}</pre>
+ * assert absent.map(n -> n * 2).isAbsent();
+ * }
  * ... and an {@link me.sparky983.helios.optional.Optional#flatMap(java.util.function.Function)}
  * method if the transformed value is another {@code Optional}:
- * <pre>{@code  Optional<Integer> present = Optional.of(5);
+ * {@snippet : Optional<Integer> present = Optional.of(5);
  * assert present.flatMap(n -> Optional.of(n * 2)).equals(Optional.of(10));
  * assert present.flatMap(n -> Optional.absent()).isAbsent();
  *
  * Optional<Integer> absent = Optional.absent();
  * assert absent.flatMap(n -> Optional.of(n * 2)).isAbsent();
- * assert absent.flatMap(n -> Optional.absent()).isAbsent();}</pre>
+ * assert absent.flatMap(n -> Optional.absent()).isAbsent();
+ * }
  * <h2><a id="idioms">Idioms</a></h2>
  * <h3>Pattern Matching</h3>
  * {@code Optional} uses subtyping to represent the two states. This can be taken advantage of by
  * using Java 15's pattern to ensure the safety of a
  * {@link me.sparky983.helios.optional.Present#value()} call:
- * <pre>{@code  Optional<Integer> optional = Optional.of(5);
+ * {@snippet :
+ * Optional<Integer> optional = Optional.of(5);
  * if (optional instanceof Present<Integer> present) {
  *     System.out.println(present.value());
- * }}</pre>
+ * }
+ * }
  * ... and since {@code Optional}s are {@code sealed}, the {@code default} branch in switch
  * statements (that use pattern matching for switch which is in preview since Java 27) can be
  * omitted:
- * <pre>{@code  switch (optional) {
+ * {@snippet :
+ * switch (optional) {
  *     case Present<Integer> present -> System.out.println(present.value());
  *     case Absent -> System.out.println("Absent");
- * }}</pre>
+ * }
+ * }
  * <h3>Record Deconstructing</h3>
  * Both the {@code Present} and {@code Absent} classes are records, which allows for the use of
  * record patterns (which are in preview since Java 20):
- * <pre>{@code  Optional<Integer> optional = Optional.of(5);
+ * {@snippet :
+ * Optional<Integer> optional = Optional.of(5);
  * if (optional instanceof Present(Integer value)) {
  *     System.out.println(value);
  * }
@@ -129,7 +137,8 @@
  * switch (optional) {
  *     case Present(Integer value) -> System.out.println(value());
  *     case Absent -> System.out.println("Absent");
- * }}</pre>
+ * }
+ * }
  * <h2>Null Interoperability</h2>
  * The use of {@code Optional} over {@code nll} is encouraged, however there are times when this is
  * not possible such as when interacting with legacy APIs. {@code Optional} provides several methods
@@ -255,4 +264,3 @@
  * </table>
  */
 package me.sparky983.helios.optional;
-// @formatter:on
