@@ -1,7 +1,5 @@
 package me.sparky983.helios.optional;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
-
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -16,7 +14,7 @@ import java.util.function.Supplier;
  * @helios.apiNote This class should not be constructed directly and is only public for pattern
  * matching. Use {@link #of(Object)} instead.
  */
-public record Present<T extends @NonNull Object>(T value) implements Optional<T> {
+public record Present<T extends Object>(T value) implements Optional<T> {
 
     /**
      * Constructs a new {@code Present} {@code Optional} with the given value.
@@ -80,7 +78,7 @@ public record Present<T extends @NonNull Object>(T value) implements Optional<T>
     }
 
     @Override
-    public <M extends @NonNull Object> Optional<M> map(
+    public <M extends Object> Optional<M> map(
             final Function<? super T, ? extends M> mapper) {
 
         Objects.requireNonNull(mapper, "mapper cannot be null");
@@ -94,7 +92,7 @@ public record Present<T extends @NonNull Object>(T value) implements Optional<T>
 
     @SuppressWarnings("unchecked")
     @Override
-    public <M extends @NonNull Object> Optional<M> flatMap(
+    public <M extends Object> Optional<M> flatMap(
             final Function<? super T, ? extends Optional<? extends M>> mapper) {
 
         Objects.requireNonNull(mapper, "mapper cannot be null");

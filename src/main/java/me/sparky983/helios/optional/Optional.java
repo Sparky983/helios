@@ -1,6 +1,5 @@
 package me.sparky983.helios.optional;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.function.Function;
@@ -37,7 +36,7 @@ import java.util.function.Supplier;
  * }
  * }
  */
-public sealed interface Optional<T extends @NonNull Object> permits Present, Absent {
+public sealed interface Optional<T extends Object> permits Present, Absent {
 
     /**
      * Returns an absent {@code Optional}.
@@ -49,7 +48,7 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
      * @helios.implNote This method returns a singleton instance of {@link Absent}.
      */
     @SuppressWarnings("unchecked")
-    static <T extends @NonNull Object> Optional<T> absent() {
+    static <T extends Object> Optional<T> absent() {
 
         return (Absent<T>) Absent.ABSENT;
     }
@@ -62,7 +61,7 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
      * @param <T> the type of the value
      * @throws NullPointerException if the value is {@code null}.
      */
-    static <T extends @NonNull Object> Optional<T> of(final T value) {
+    static <T extends Object> Optional<T> of(final T value) {
 
         return new Present<>(value);
     }
@@ -84,7 +83,7 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
      * Optional<String> optional = Optional.fromNullable(map.get("key"));
      * }
      */
-    static <T extends @NonNull Object> Optional<T> fromNullable(final @Nullable T value) {
+    static <T extends Object> Optional<T> fromNullable(final @Nullable T value) {
 
         if (value != null) {
             return of(value);
@@ -113,7 +112,7 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
      * }
      */
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    static <T extends @NonNull Object> Optional<T> fromJavaOptional(
+    static <T extends Object> Optional<T> fromJavaOptional(
             final java.util.Optional<T> optional) {
 
         return optional.<Optional<T>>map(Optional::of).orElse(Optional.absent());
@@ -255,7 +254,7 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
      * assert absent.map(n -> n * 2).isAbsent();
      * }
      */
-    <M extends @NonNull Object> Optional<M> map(Function<? super T, ? extends M> mapper);
+    <M extends Object> Optional<M> map(Function<? super T, ? extends M> mapper);
 
     /**
      * If this {@code Optional} is present, returns the result of applying the given mapper to the
@@ -276,7 +275,7 @@ public sealed interface Optional<T extends @NonNull Object> permits Present, Abs
      *        .flatMap(user -> user.findRepository("helios"));
      * }
      */
-    <M extends @NonNull Object> Optional<M> flatMap(
+    <M extends Object> Optional<M> flatMap(
             Function<? super T, ? extends Optional<? extends M>> mapper);
 
     /**

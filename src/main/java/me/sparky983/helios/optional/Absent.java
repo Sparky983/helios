@@ -1,7 +1,6 @@
 package me.sparky983.helios.optional;
 
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Objects;
@@ -16,7 +15,7 @@ import java.util.function.Supplier;
  * @since 0.1.0
  * @helios.apiNote This class should not be constructed directly. Use {@link #absent()} instead.
  */
-public record Absent<T extends @NonNull Object>() implements Optional<T> {
+public record Absent<T extends Object>() implements Optional<T> {
 
     static final Absent<?> ABSENT = new Absent<>();
 
@@ -79,7 +78,7 @@ public record Absent<T extends @NonNull Object>() implements Optional<T> {
     }
 
     @Override
-    public <M extends @NonNull Object> Optional<M> map(
+    public <M extends Object> Optional<M> map(
             final Function<? super T, ? extends M> mapper) {
 
         Objects.requireNonNull(mapper, "mapper cannot be null");
@@ -87,9 +86,8 @@ public record Absent<T extends @NonNull Object>() implements Optional<T> {
         return Optional.absent();
     }
 
-
     @Override
-    public <M extends @NonNull Object> Optional<M> flatMap(
+    public <M extends Object> Optional<M> flatMap(
             final Function<? super T, ? extends Optional<? extends M>> mapper) {
 
         Objects.requireNonNull(mapper, "mapper cannot be null");
