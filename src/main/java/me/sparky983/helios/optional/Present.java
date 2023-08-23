@@ -15,116 +15,99 @@ import java.util.function.Supplier;
  * matching. Use {@link #of(Object)} instead.
  */
 public record Present<T extends Object>(T value) implements Optional<T> {
+  /**
+   * Constructs a new {@code Present} {@code Optional} with the given value.
+   *
+   * @param value the value
+   * @throws NullPointerException if the value is {@code null}.
+   */
+  public Present {
+    Objects.requireNonNull(value, "value cannot be null");
+  }
 
-    /**
-     * Constructs a new {@code Present} {@code Optional} with the given value.
-     *
-     * @param value the value
-     * @throws NullPointerException if the value is {@code null}.
-     */
-    public Present {
+  @Override
+  public boolean isPresent() {
+    return true;
+  }
 
-        Objects.requireNonNull(value, "value cannot be null");
+  @Override
+  public boolean isAbsent() {
+    return false;
+  }
+
+  @Override
+  public Optional<T> or(final Optional<? extends T> other) {
+    Objects.requireNonNull(other, "other cannot be null");
+
+    return this;
+  }
+
+  @Override
+  public Optional<T> or(final Supplier<? extends Optional<? extends T>> otherGetter) {
+    Objects.requireNonNull(otherGetter, "otherGetter cannot be null");
+
+    return this;
+  }
+
+  @Override
+  public T orDefault(final T defaultValue) {
+    Objects.requireNonNull(defaultValue, "defaultValue cannot be null");
+
+    return value;
+  }
+
+  @Override
+  public T orGet(final Supplier<? extends T> defaultValueGetter) {
+    Objects.requireNonNull(defaultValueGetter, "defaultValueGetter cannot be null");
+
+    return value;
+  }
+
+  @Override
+  public T orNull() {
+    return value;
+  }
+
+  @Override
+  public <M extends Object> Optional<M> map(final Function<? super T, ? extends M> mapper) {
+    Objects.requireNonNull(mapper, "mapper cannot be null");
+
+    final var mappedValue =
+        Objects.requireNonNull(mapper.apply(value), "mapper cannot return null");
+
+    return Optional.of(mappedValue);
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public <M extends Object> Optional<M> flatMap(
+      final Function<? super T, ? extends Optional<? extends M>> mapper) {
+    Objects.requireNonNull(mapper, "mapper cannot be null");
+
+    final var mappedValue =
+        Objects.requireNonNull(mapper.apply(value), "mapper cannot return null");
+
+    return (Optional<M>) mappedValue;
+  }
+
+  @Override
+  public Optional<T> filter(final Predicate<? super T> predicate) {
+    Objects.requireNonNull(predicate, "predicate cannot be null");
+
+    if (predicate.test(value)) {
+      return this;
+    } else {
+      return Optional.absent();
     }
+  }
 
-    @Override
-    public boolean isPresent() {
+  @Override
+  public int hashCode() {
+    return value.hashCode();
+  }
 
-        return true;
-    }
-
-    @Override
-    public boolean isAbsent() {
-
-        return false;
-    }
-
-    @Override
-    public Optional<T> or(final Optional<? extends T> other) {
-
-        Objects.requireNonNull(other, "other cannot be null");
-
-        return this;
-    }
-
-    @Override
-    public Optional<T> or(final Supplier<? extends Optional<? extends T>> otherGetter) {
-
-        Objects.requireNonNull(otherGetter, "otherGetter cannot be null");
-
-        return this;
-    }
-
-    @Override
-    public T orDefault(final T defaultValue) {
-
-        Objects.requireNonNull(defaultValue, "defaultValue cannot be null");
-
-        return value;
-    }
-
-    @Override
-    public T orGet(final Supplier<? extends T> defaultValueGetter) {
-
-        Objects.requireNonNull(defaultValueGetter, "defaultValueGetter cannot be null");
-
-        return value;
-    }
-
-    @Override
-    public T orNull() {
-
-        return value;
-    }
-
-    @Override
-    public <M extends Object> Optional<M> map(
-            final Function<? super T, ? extends M> mapper) {
-
-        Objects.requireNonNull(mapper, "mapper cannot be null");
-
-        final var mappedValue = Objects.requireNonNull(
-                mapper.apply(value),
-                "mapper cannot return null");
-
-        return Optional.of(mappedValue);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public <M extends Object> Optional<M> flatMap(
-            final Function<? super T, ? extends Optional<? extends M>> mapper) {
-
-        Objects.requireNonNull(mapper, "mapper cannot be null");
-
-        final var mappedValue = Objects.requireNonNull(
-                mapper.apply(value),
-                "mapper cannot return null");
-
-        return (Optional<M>) mappedValue;
-    }
-
-    @Override
-    public Optional<T> filter(final Predicate<? super T> predicate) {
-
-        Objects.requireNonNull(predicate, "predicate cannot be null");
-
-        if (predicate.test(value)) {
-            return this;
-        } else {
-            return Optional.absent();
-        }
-    }
-
-    @Override
-    public int hashCode() {
-
-        return value.hashCode();
-    }
-
-    @Override
-    public String toString() {
-
-        return "Optional.of(" + value + ")";
-    }
+  @Override
+  public String toString() {
+    return "Optional.of(" + value + ")";
+  }
 }

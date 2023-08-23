@@ -1,6 +1,7 @@
 plugins {
     `java-library`
 
+    id("com.diffplug.spotless") version "6.20.0"
     id("org.checkerframework") version "0.6.27"
 }
 
@@ -21,6 +22,23 @@ java {
     }
 }
 
+spotless {
+    java {
+        palantirJavaFormat("2.35.0").style("GOOGLE")
+        formatAnnotations()
+    }
+    kotlinGradle {
+        ktlint()
+    }
+}
+
+checkerFramework {
+    checkers = listOf(
+        "org.checkerframework.checker.nullness.NullnessChecker",
+    )
+    excludeTests = true
+}
+
 tasks {
     javadoc {
         options {
@@ -34,11 +52,4 @@ tasks {
     test {
         useJUnitPlatform()
     }
-}
-
-checkerFramework {
-    checkers = listOf(
-        "org.checkerframework.checker.nullness.NullnessChecker"
-    )
-    excludeTests = true
 }
