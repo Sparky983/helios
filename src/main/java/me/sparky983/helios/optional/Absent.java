@@ -1,12 +1,10 @@
 package me.sparky983.helios.optional;
 
-
-import org.checkerframework.checker.nullness.qual.Nullable;
-
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An {@code Optional} that contains no value.
@@ -16,102 +14,86 @@ import java.util.function.Supplier;
  * @helios.apiNote This class should not be constructed directly. Use {@link #absent()} instead.
  */
 public record Absent<T extends Object>() implements Optional<T> {
+  static final Absent<?> ABSENT = new Absent<>();
 
-    static final Absent<?> ABSENT = new Absent<>();
+  @Override
+  public boolean isPresent() {
+    return false;
+  }
 
-    @Override
-    public boolean isPresent() {
+  @Override
+  public boolean isAbsent() {
+    return true;
+  }
 
-        return false;
-    }
+  @SuppressWarnings("unchecked")
+  @Override
+  public Optional<T> or(final Optional<? extends T> other) {
+    Objects.requireNonNull(other, "other cannot be null");
 
-    @Override
-    public boolean isAbsent() {
+    return (Optional<T>) other;
+  }
 
-        return true;
-    }
+  @Override
+  public Optional<T> or(final Supplier<? extends Optional<? extends T>> otherGetter) {
+    Objects.requireNonNull(otherGetter, "otherGetter cannot be null");
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public Optional<T> or(final Optional<? extends T> other) {
+    final var other = Objects.requireNonNull(otherGetter.get(), "otherGetter cannot return null");
 
-        Objects.requireNonNull(other, "other cannot be null");
+    return or(other);
+  }
 
-        return (Optional<T>) other;
-    }
+  @Override
+  public T orDefault(final T defaultValue) {
+    Objects.requireNonNull(defaultValue, "defaultValue cannot be null");
 
-    @Override
-    public Optional<T> or(final Supplier<? extends Optional<? extends T>> otherGetter) {
+    return defaultValue;
+  }
 
-        Objects.requireNonNull(otherGetter, "otherGetter cannot be null");
+  @Override
+  public T orGet(final Supplier<? extends T> defaultValueGetter) {
+    Objects.requireNonNull(defaultValueGetter, "defaultValueGetter cannot be null");
 
-        final var other = Objects.requireNonNull(
-                otherGetter.get(),
-                "otherGetter cannot return null");
+    final var defaultValue = defaultValueGetter.get();
+    Objects.requireNonNull(defaultValue, "defaultValueGetter cannot return null");
 
-        return or(other);
-    }
+    return defaultValue;
+  }
 
-    @Override
-    public T orDefault(final T defaultValue) {
+  @Override
+  public @Nullable T orNull() {
+    return null;
+  }
 
-        Objects.requireNonNull(defaultValue, "defaultValue cannot be null");
+  @Override
+  public <M extends Object> Optional<M> map(final Function<? super T, ? extends M> mapper) {
+    Objects.requireNonNull(mapper, "mapper cannot be null");
 
-        return defaultValue;
-    }
+    return Optional.absent();
+  }
 
-    @Override
-    public T orGet(final Supplier<? extends T> defaultValueGetter) {
+  @Override
+  public <M extends Object> Optional<M> flatMap(
+      final Function<? super T, ? extends Optional<? extends M>> mapper) {
+    Objects.requireNonNull(mapper, "mapper cannot be null");
 
-        Objects.requireNonNull(defaultValueGetter, "defaultValueGetter cannot be null");
+    return Optional.absent();
+  }
 
-        final var defaultValue = defaultValueGetter.get();
-        Objects.requireNonNull(defaultValue, "defaultValueGetter cannot return null");
+  @Override
+  public Optional<T> filter(final Predicate<? super T> predicate) {
+    Objects.requireNonNull(predicate, "predicate cannot be null");
 
-        return defaultValue;
-    }
+    return Optional.absent();
+  }
 
-    @Override
-    public @Nullable T orNull() {
+  @Override
+  public int hashCode() {
+    return 0;
+  }
 
-        return null;
-    }
-
-    @Override
-    public <M extends Object> Optional<M> map(
-            final Function<? super T, ? extends M> mapper) {
-
-        Objects.requireNonNull(mapper, "mapper cannot be null");
-
-        return Optional.absent();
-    }
-
-    @Override
-    public <M extends Object> Optional<M> flatMap(
-            final Function<? super T, ? extends Optional<? extends M>> mapper) {
-
-        Objects.requireNonNull(mapper, "mapper cannot be null");
-
-        return Optional.absent();
-    }
-
-    @Override
-    public Optional<T> filter(final Predicate<? super T> predicate) {
-
-        Objects.requireNonNull(predicate, "predicate cannot be null");
-
-        return Optional.absent();
-    }
-
-    @Override
-    public int hashCode() {
-
-        return 0;
-    }
-
-    @Override
-    public String toString() {
-
-        return "Optional.absent()";
-    }
+  @Override
+  public String toString() {
+    return "Optional.absent()";
+  }
 }
