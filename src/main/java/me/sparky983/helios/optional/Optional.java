@@ -112,7 +112,7 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
   @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
   static <T extends Object> Optional<T> fromJavaOptional(final java.util.Optional<T> optional) {
 
-    return optional.<Optional<T>>map(Optional::of).orElse(Optional.absent());
+    return optional.map(Optional::of).orElse(Optional.absent());
   }
 
   /**
