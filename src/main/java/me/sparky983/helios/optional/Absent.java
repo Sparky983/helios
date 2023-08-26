@@ -94,6 +94,6 @@ public record Absent<T extends Object>() implements Optional<T> {
 
   @Override
   public String toString() {
-    return "Optional.absent()";
+    return "Absent()";
   }
 }

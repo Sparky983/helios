@@ -108,6 +108,6 @@ public record Present<T extends Object>(T value) implements Optional<T> {
 
   @Override
   public String toString() {
-    return "Optional.of(" + value + ")";
+    return "Present(" + value + ")";
   }
 }
