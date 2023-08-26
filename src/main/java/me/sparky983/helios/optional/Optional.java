@@ -47,7 +47,6 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
    */
   @SuppressWarnings("unchecked")
   static <T extends Object> Optional<T> absent() {
-
     return (Absent<T>) Absent.ABSENT;
   }
 
@@ -60,7 +59,6 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
    * @throws NullPointerException if the value is {@code null}.
    */
   static <T extends Object> Optional<T> of(final T value) {
-
     return new Present<>(value);
   }
 
@@ -82,7 +80,6 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
    * }
    */
   static <T extends Object> Optional<T> fromNullable(final @Nullable T value) {
-
     if (value != null) {
       return of(value);
     } else {
@@ -111,7 +108,6 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
    */
   @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
   static <T extends Object> Optional<T> fromJavaOptional(final java.util.Optional<T> optional) {
-
     return optional.map(Optional::of).orElse(Optional.absent());
   }
 
