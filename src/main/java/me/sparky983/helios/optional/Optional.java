@@ -37,6 +37,18 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 public sealed interface Optional<T extends Object> permits Present, Absent {
   /**
+   * Returns a present {@code Optional} containing the given value.
+   *
+   * @param value the value
+   * @return a present {@code Optional} containing the given value
+   * @param <T> the type of the value
+   * @throws NullPointerException if the value is {@code null}.
+   */
+  static <T extends Object> Optional<T> of(final T value) {
+    return new Present<>(value);
+  }
+
+  /**
    * Returns an absent {@code Optional}.
    *
    * @param <T> the type of the value
@@ -48,18 +60,6 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
   @SuppressWarnings("unchecked")
   static <T extends Object> Optional<T> absent() {
     return (Absent<T>) Absent.ABSENT;
-  }
-
-  /**
-   * Returns a present {@code Optional} containing the given value.
-   *
-   * @param value the value
-   * @return a present {@code Optional} containing the given value
-   * @param <T> the type of the value
-   * @throws NullPointerException if the value is {@code null}.
-   */
-  static <T extends Object> Optional<T> of(final T value) {
-    return new Present<>(value);
   }
 
   /**
