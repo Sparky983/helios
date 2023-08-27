@@ -19,12 +19,12 @@
  *     <li>and {@link me.sparky983.helios.optional.Absent}</li>
  * </ul>
  * {@snippet :
- * Optional<Integer> present = Optional.of(5);
+ * Optional<Integer> present = Optional.present(5);
  * assert optional.isPresent();
  *
  * Optional<Integer> absent = Optional.absent();
  * assert absent.isAbsent();
- * }
+ *}
  * <p>
  * Unlike {@code null}, the type system enforces that a references wrapped in
  * {@link me.sparky983.helios.optional.Optional} can only be accessed if it is present.
@@ -43,18 +43,18 @@
  *             {@link
  *             me.sparky983.helios.optional.Optional#or(me.sparky983.helios.optional.Optional)}
  *         </td>
- *         <td>{@code Optional.of(value)}</td>
- *         <td>{@code Optional.of(other)}</td>
- *         <td>{@code Optional.of(value)}</td>
+ *         <td>{@code Optional.present(value)}</td>
+ *         <td>{@code Optional.present(other)}</td>
+ *         <td>{@code Optional.present(value)}</td>
  *     </tr>
  *     <tr>
  *         <td>
  *             {@link
  *             me.sparky983.helios.optional.Optional#or(me.sparky983.helios.optional.Optional)}
  *         </td>
- *         <td>{@code Optional.of(value)}</td>
+ *         <td>{@code Optional.present(value)}</td>
  *         <td>{@code Optional.absent()}</td>
- *         <td>{@code Optional.of(value)}</td>
+ *         <td>{@code Optional.present(value)}</td>
  *     </tr>
  *     <tr>
  *         <td>
@@ -62,8 +62,8 @@
  *             me.sparky983.helios.optional.Optional#or(me.sparky983.helios.optional.Optional)}
  *         </td>
  *         <td>{@code Optional.absent()}</td>
- *         <td>{@code Optional.of(other)}</td>
- *         <td>{@code Optional.of(other)}</td>
+ *         <td>{@code Optional.present(other)}</td>
+ *         <td>{@code Optional.present(other)}</td>
  *     </tr>
  *     <tr>
  *         <td>
@@ -76,7 +76,7 @@
  *     </tr>
  *     <tr>
  *         <td>{@link me.sparky983.helios.optional.Optional#orDefault(Object)}</td>
- *         <td>{@code Optional.of(value)}</td>
+ *         <td>{@code Optional.present(value)}</td>
  *         <td>{@code other}</td>
  *         <td>{@code value}</td>
  *     </tr>
@@ -93,36 +93,36 @@
  * {@link me.sparky983.helios.optional.Optional#map(java.util.function.Function)} which simply
  * applies the given {@link java.util.function.Function} to its value:
  * {@snippet :
- * Optional<Integer> present = Optional.of(5);
- * assert present.map(n -> n * 2).equals(Optional.of(10));
+ * Optional<Integer> present = Optional.present(5);
+ * assert present.map(n -> n * 2).equals(Optional.present(10));
  *
  * Optional<Integer> absent = Optional.absent();
  * assert absent.map(n -> n * 2).isAbsent();
- * }
+ *}
  * If the {@link java.util.function.Function} returns an
  * {@link me.sparky983.helios.optional.Optional},
  * {@link me.sparky983.helios.optional.Optional#flatMap(java.util.function.Function)} can be used to
  * automatically flatten the return value:
  * {@snippet :
- * Optional<Integer> present = Optional.of(5);
- * assert present.flatMap(n -> Optional.of(n * 2)).equals(Optional.of(10));
+ * Optional<Integer> present = Optional.present(5);
+ * assert present.flatMap(n -> Optional.present(n * 2)).equals(Optional.present(10));
  * assert present.flatMap(n -> Optional.absent()).isAbsent();
  *
  * Optional<Integer> absent = Optional.absent();
- * assert absent.flatMap(n -> Optional.of(n * 2)).isAbsent();
+ * assert absent.flatMap(n -> Optional.present(n * 2)).isAbsent();
  * assert absent.flatMap(n -> Optional.absent()).isAbsent();
- * }
+ *}
  * <h2><a id="idioms">Idioms</a></h2>
  * <h3>Pattern Matching</h3>
  * {@link me.sparky983.helios.optional.Optional} supports pattern matching. This
  * can be taken advantage of to make a type-safe call to
  * {@link me.sparky983.helios.optional.Present#value()}:
  * {@snippet :
- * Optional<Integer> optional = Optional.of(5);
+ * Optional<Integer> optional = Optional.present(5);
  * if (optional instanceof Present<Integer> present) {
  *     System.out.println(present.value());
  * }
- * }
+ *}
  * <h2>Null Interoperability</h2>
  * The use of {@link me.sparky983.helios.optional.Optional} over {@code null} is highly encouraged,
  * however there are times when this is not possible, such as when interacting with legacy APIs.
@@ -155,7 +155,7 @@
  *          <td>{@link java.util.Optional#empty()}</td>
  *     </tr>
  *     <tr>
- *         <td>{@link me.sparky983.helios.optional.Optional#of(Object)}</td>
+ *         <td>{@link me.sparky983.helios.optional.Optional#present(Object)}</td>
  *         <td>{@link java.util.Optional#of(Object)}</td>
  *     </tr>
  *     <tr>

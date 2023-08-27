@@ -45,7 +45,7 @@ class OptionalTests {
 
   @Test
   void testFromNullable_WhenNonNull() {
-    assertEquals(Optional.of(VALUE), Optional.fromNullable(VALUE));
+    assertEquals(Optional.present(VALUE), Optional.fromNullable(VALUE));
   }
 
   @Test
@@ -55,98 +55,98 @@ class OptionalTests {
 
   @Test
   void testFromJavaOptional_WhenPresent() {
-    assertEquals(Optional.of(VALUE), Optional.fromJavaOptional(java.util.Optional.of(VALUE)));
+    assertEquals(Optional.present(VALUE), Optional.fromJavaOptional(java.util.Optional.of(VALUE)));
   }
 
   @Nested
   class PresentTests {
     @Test
     void testOf() {
-      assertEquals(VALUE, ((Present<?>) Optional.of(VALUE)).value());
+      assertEquals(VALUE, ((Present<?>) Optional.present(VALUE)).value());
     }
 
     @Test
     void testOf_WhenNull() {
-      var exception = assertThrows(NullPointerException.class, () -> Optional.of(null));
+      var exception = assertThrows(NullPointerException.class, () -> Optional.present(null));
       assertEquals("value cannot be null", exception.getMessage());
     }
 
     @Test
     void testIsPresent() {
-      assertTrue(Optional.of(VALUE).isPresent());
+      assertTrue(Optional.present(VALUE).isPresent());
     }
 
     @Test
     void testIsAbsent() {
-      assertFalse(Optional.of(VALUE).isAbsent());
+      assertFalse(Optional.present(VALUE).isAbsent());
     }
 
     @Test
     void testOr_Optional_WhenAbsent() {
-      assertEquals(Optional.of(VALUE), Optional.of(VALUE).or(Optional.absent()));
+      assertEquals(Optional.present(VALUE), Optional.present(VALUE).or(Optional.absent()));
     }
 
     @Test
     void testOr_Optional_WhenPresent() {
-      assertEquals(Optional.of(VALUE), Optional.of(VALUE).or(Optional.of(VALUE2)));
+      assertEquals(Optional.present(VALUE), Optional.present(VALUE).or(Optional.present(VALUE2)));
     }
 
     @Test
     void testOr_Optional_WhenNull() {
-      var present = Optional.of(VALUE);
+      var present = Optional.present(VALUE);
       var exception = assertThrows(NullPointerException.class, () -> present.or(NULL_OPTIONAL));
       assertEquals("other cannot be null", exception.getMessage());
     }
 
     @Test
     void testOr_Supplier_WhenAbsent() {
-      assertEquals(Optional.of(VALUE), Optional.of(VALUE).or(Optional::absent));
+      assertEquals(Optional.present(VALUE), Optional.present(VALUE).or(Optional::absent));
     }
 
     @Test
     void testOr_Supplier_WhenPresent() {
-      assertEquals(Optional.of(VALUE), Optional.of(VALUE).or(() -> Optional.of(VALUE2)));
+      assertEquals(Optional.present(VALUE), Optional.present(VALUE).or(() -> Optional.present(VALUE2)));
     }
 
     @Test
     void testOr_Supplier_WhenNull() {
-      var present = Optional.of(VALUE);
+      var present = Optional.present(VALUE);
       var exception = assertThrows(NullPointerException.class, () -> present.or(NULL_SUPPLIER));
       assertEquals("otherGetter cannot be null", exception.getMessage());
     }
 
     @Test
     void testOrDefault() {
-      assertEquals(VALUE, Optional.of(VALUE).orDefault(VALUE2));
+      assertEquals(VALUE, Optional.present(VALUE).orDefault(VALUE2));
     }
 
     @Test
     void testOrDefault_WhenNull() {
-      var present = Optional.of(VALUE);
+      var present = Optional.present(VALUE);
       var exception = assertThrows(NullPointerException.class, () -> present.orDefault(null));
       assertEquals("defaultValue cannot be null", exception.getMessage());
     }
 
     @Test
     void testOrGet() {
-      assertEquals(VALUE, Optional.of(VALUE).orGet(Assertions::fail));
+      assertEquals(VALUE, Optional.present(VALUE).orGet(Assertions::fail));
     }
 
     @Test
     void testOrGet_WhenNull() {
-      var present = Optional.of(VALUE);
+      var present = Optional.present(VALUE);
       var exception = assertThrows(NullPointerException.class, () -> present.orGet(null));
       assertEquals("defaultValueGetter cannot be null", exception.getMessage());
     }
 
     @Test
     void testOrNull() {
-      assertEquals(VALUE, Optional.of(VALUE).orNull());
+      assertEquals(VALUE, Optional.present(VALUE).orNull());
     }
 
     @Test
     void testMap() {
-      assertEquals(Optional.of(VALUE2), Optional.of(VALUE).map((o) -> {
+      assertEquals(Optional.present(VALUE2), Optional.present(VALUE).map((o) -> {
         assertEquals(VALUE, o);
         return VALUE2;
       }));
@@ -154,43 +154,43 @@ class OptionalTests {
 
     @Test
     void testMap_WhenNull() {
-      var present = Optional.of(VALUE);
+      var present = Optional.present(VALUE);
       var exception = assertThrows(NullPointerException.class, () -> present.map(null));
       assertEquals("mapper cannot be null", exception.getMessage());
     }
 
     @Test
     void testMap_WhenMapperReturnsNull() {
-      var present = Optional.of(VALUE);
+      var present = Optional.present(VALUE);
       var exception = assertThrows(NullPointerException.class, () -> present.map((o) -> null));
       assertEquals("mapper cannot return null", exception.getMessage());
     }
 
     @Test
     void testFlatMap() {
-      assertEquals(Optional.of(VALUE2), Optional.of(VALUE).flatMap((o) -> {
+      assertEquals(Optional.present(VALUE2), Optional.present(VALUE).flatMap((o) -> {
         assertEquals(VALUE, o);
-        return Optional.of(VALUE2);
+        return Optional.present(VALUE2);
       }));
     }
 
     @Test
     void testFlatMap_WhenNull() {
-      var present = Optional.of(VALUE);
+      var present = Optional.present(VALUE);
       var exception = assertThrows(NullPointerException.class, () -> present.flatMap(null));
       assertEquals("mapper cannot be null", exception.getMessage());
     }
 
     @Test
     void testFlatMap_WhenMapperReturnsNull() {
-      var present = Optional.of(VALUE);
+      var present = Optional.present(VALUE);
       var exception = assertThrows(NullPointerException.class, () -> present.flatMap((o) -> null));
       assertEquals("mapper cannot return null", exception.getMessage());
     }
 
     @Test
     void testFilter_WhenPredicateMatches() {
-      assertEquals(Optional.of(VALUE), Optional.of(VALUE).filter((o) -> {
+      assertEquals(Optional.present(VALUE), Optional.present(VALUE).filter((o) -> {
         assertEquals(VALUE, o);
         return true;
       }));
@@ -198,7 +198,7 @@ class OptionalTests {
 
     @Test
     void testFilter_WhenPredicateDoesNotMatch() {
-      assertEquals(Optional.absent(), Optional.of(VALUE).filter((o) -> {
+      assertEquals(Optional.absent(), Optional.present(VALUE).filter((o) -> {
         assertEquals(VALUE, o);
         return false;
       }));
@@ -206,7 +206,7 @@ class OptionalTests {
 
     @Test
     void testFilter_WhenNull() {
-      var present = Optional.of(VALUE);
+      var present = Optional.present(VALUE);
       var exception = assertThrows(NullPointerException.class, () -> present.filter(null));
       assertEquals("predicate cannot be null", exception.getMessage());
     }
@@ -214,12 +214,12 @@ class OptionalTests {
     @Test
     void testHashCode() {
       var value = new Object();
-      assertEquals(value.hashCode(), Optional.of(value).hashCode());
+      assertEquals(value.hashCode(), Optional.present(value).hashCode());
     }
 
     @Test
     void testToString() {
-      assertEquals("Present(" + VALUE + ")", Optional.of(VALUE).toString());
+      assertEquals("Present(" + VALUE + ")", Optional.present(VALUE).toString());
     }
   }
 
@@ -247,7 +247,7 @@ class OptionalTests {
 
     @Test
     void testOr_Optional_WhenPresent() {
-      assertEquals(Optional.of(VALUE), Optional.absent().or(Optional.of(VALUE)));
+      assertEquals(Optional.present(VALUE), Optional.absent().or(Optional.present(VALUE)));
     }
 
     @Test
@@ -264,7 +264,7 @@ class OptionalTests {
 
     @Test
     void testOr_Supplier_WhenPresent() {
-      assertEquals(Optional.of(VALUE), Optional.absent().or(() -> Optional.of(VALUE)));
+      assertEquals(Optional.present(VALUE), Optional.absent().or(() -> Optional.present(VALUE)));
     }
 
     @Test

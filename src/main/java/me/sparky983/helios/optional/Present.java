@@ -12,7 +12,7 @@ import java.util.function.Supplier;
  * @param <T> the type of the value
  * @since 0.1.0
  * @helios.apiNote This class should not be constructed directly and is only public for pattern
- * matching. Use {@link #of(Object)} instead.
+ * matching. Use {@link #present(Object)} instead.
  */
 public record Present<T extends Object>(T value) implements Optional<T> {
   /**
@@ -75,7 +75,7 @@ public record Present<T extends Object>(T value) implements Optional<T> {
     final var mappedValue =
         Objects.requireNonNull(mapper.apply(value), "mapper cannot return null");
 
-    return Optional.of(mappedValue);
+    return Optional.present(mappedValue);
   }
 
   @SuppressWarnings("unchecked")

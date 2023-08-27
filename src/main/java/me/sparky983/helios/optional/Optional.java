@@ -28,12 +28,12 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * This interface is sealed and the implementations are records, so you can easily combine switch
  * pattern matching and record patterns (Java 21+ features) to handle the different cases:
  * {@snippet :
- * Optional<String> optional = Optional.of("value");
+ * Optional<String> optional = Optional.present("value");
  * switch (optional) {
  *     case Present(String value) -> System.out.println("Present: " + value);
  *     case Absent() -> System.out.println("Absent");
  * }
- * }
+ *}
  */
 public sealed interface Optional<T extends Object> permits Present, Absent {
   /**
@@ -44,7 +44,7 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
    * @param <T> the type of the value
    * @throws NullPointerException if the value is {@code null}.
    */
-  static <T extends Object> Optional<T> of(final T value) {
+  static <T extends Object> Optional<T> present(final T value) {
     return new Present<>(value);
   }
 
@@ -66,7 +66,7 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
    * Returns an {@code Optional} containing the given value if it is non-null, otherwise an absent
    * {@code Optional}.
    * <p>
-   * This method is equivalent to {@code value == null ? Optional.absent() : Optional.of(value)}.
+   * This method is equivalent to {@code value == null ? Optional.absent() : Optional.present(value)}.
    *
    * @param value the value
    * @return an {@code Optional} containing the given value if it is non-null, otherwise an absent
@@ -81,7 +81,7 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
    */
   static <T extends Object> Optional<T> fromNullable(final @Nullable T value) {
     if (value != null) {
-      return of(value);
+      return present(value);
     } else {
       return absent();
     }
@@ -108,7 +108,7 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
    */
   @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
   static <T extends Object> Optional<T> fromJavaOptional(final java.util.Optional<T> optional) {
-    return optional.map(Optional::of).orElse(Optional.absent());
+    return optional.map(Optional::present).orElse(Optional.absent());
   }
 
   /**
@@ -117,12 +117,12 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
    * @return {@code true} if this {@code Optional} is present, otherwise {@code false}
    * @helios.examples
    * {@snippet :
-   * Optional<Integer> present = Optional.of(5);
+   * Optional<Integer> present = Optional.present(5);
    * assert optional.isPresent();
    *
    * Optional<Integer> absent = Optional.absent();
    * assert !absent.isPresent();
-   * }
+   *}
    */
   boolean isPresent();
 
@@ -135,9 +135,9 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
    * Optional<Integer> absent = Optional.absent();
    * assert absent.isAbsent();
    *
-   * Optional<Integer> present = Optional.of(5);
+   * Optional<Integer> present = Optional.present(5);
    * assert !optional.isAbsent();
-   * }
+   *}
    */
   boolean isAbsent();
 
@@ -149,12 +149,12 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
    * @throws NullPointerException if the given {@code Optional} is {@code null}.
    * @helios.examples
    * {@snippet :
-   * Optional<Integer> present = Optional.of(5);
-   * assert present.or(Optional.of(10)).equals(optional);
+   * Optional<Integer> present = Optional.present(5);
+   * assert present.or(Optional.present(10)).equals(optional);
    *
    * Optional<Integer> absent = Optional.absent();
-   * assert absent.or(Optional.of(10)).equals(Optional.of(10));
-   * }
+   * assert absent.or(Optional.present(10)).equals(Optional.present(10));
+   *}
    */
   Optional<T> or(Optional<? extends T> other);
 
@@ -170,12 +170,12 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
    *     return Optional.absent(); // cache miss
    * }
    * Optional<String> findUser(String username) {
-   *     return Optional.of(username);
+   *     return Optional.present(username);
    * }
    *
    * Optional<String> user = findCachedUser("sparky983")
    *         .or(() -> findUser("sparky983"));
-   * }
+   *}
    */
   Optional<T> or(Supplier<? extends Optional<? extends T>> otherGetter);
 
@@ -187,12 +187,12 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
    * @throws NullPointerException if the fallback value is {@code null}.
    * @helios.examples
    * {@snippet :
-   * Optional<Integer> present = Optional.of(5);
+   * Optional<Integer> present = Optional.present(5);
    * assert present.orDefault(10) == 5;
    *
    * Optional<Integer> absent = Optional.absent();
    * assert absent.orDefault(10) == 10;
-   * }
+   *}
    */
   T orDefault(T defaultValue);
 
@@ -206,12 +206,12 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
    * @throws NullPointerException if the given supplier is {@code null} or returns {@code null}.
    * @helios.examples
    * {@snippet :
-   * Optional<Integer> present = Optional.of(5);
+   * Optional<Integer> present = Optional.present(5);
    * assert present.orGet(() -> 10) == 5;
    *
    * Optional<Integer> absent = Optional.absent();
    * assert absent.orGet(() -> 10) == 10;
-   * }
+   *}
    */
   T orGet(Supplier<? extends T> defaultValueGetter);
 
@@ -240,12 +240,12 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
    * @throws NullPointerException if the given mapper is {@code null} or returns {@code null}.
    * @helios.examples
    * {@snippet :
-   * Optional<Integer> present = Optional.of(5);
-   * assert present.map(n -> n * 2).equals(Optional.of(10));
+   * Optional<Integer> present = Optional.present(5);
+   * assert present.map(n -> n * 2).equals(Optional.present(10));
    *
    * Optional<Integer> absent = Optional.absent();
    * assert absent.map(n -> n * 2).isAbsent();
-   * }
+   *}
    */
   <M extends Object> Optional<M> map(Function<? super T, ? extends M> mapper);
 
@@ -261,12 +261,12 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
    * @helios.examples
    * {@snippet :
    * Optional<User> findUser(String username) {
-   *     return Optional.of(User.repository(Repository.named("helios")));
+   *     return Optional.present(User.repository(Repository.named("helios")));
    * }
    *
    * Optional<Repository> repository = findUser("Sparky983")
    *        .flatMap(user -> user.findRepository("helios"));
-   * }
+   *}
    */
   <M extends Object> Optional<M> flatMap(
       Function<? super T, ? extends Optional<? extends M>> mapper);
@@ -281,10 +281,10 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
    * @throws NullPointerException if the predicate is {@code null}.
    * @helios.examples
    * {@snippet :
-   * Optional<Integer> present = Optional.of(5);
+   * Optional<Integer> present = Optional.present(5);
    * assert present.filter(n -> n % 2 == 1).equals(present);
    * assert present.filter(n -> n % 2 == 0).isAbsent();
-   * }
+   *}
    */
   Optional<T> filter(Predicate<? super T> predicate);
 
