@@ -219,7 +219,7 @@ class OptionalTests {
 
     @Test
     void testToString() {
-      assertEquals("Optional.of(" + VALUE + ")", Optional.of(VALUE).toString());
+      assertEquals("Present(" + VALUE + ")", Optional.of(VALUE).toString());
     }
   }
 
@@ -360,7 +360,7 @@ class OptionalTests {
 
     @Test
     void testToString() {
-      assertEquals("Optional.absent()", Optional.absent().toString());
+      assertEquals("Absent()", Optional.absent().toString());
     }
   }
 }
