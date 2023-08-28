@@ -2,7 +2,7 @@ plugins {
     `java-library`
 
     id("com.diffplug.spotless") version "6.20.0"
-    id("org.checkerframework") version "0.6.27"
+    id("org.checkerframework") version "0.6.32"
 }
 
 repositories {
