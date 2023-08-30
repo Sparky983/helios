@@ -1,5 +1,6 @@
 plugins {
     `java-library`
+    `maven-publish`
 
     id("com.diffplug.spotless") version "6.21.0"
     id("org.checkerframework") version "0.6.27"
@@ -19,6 +20,30 @@ dependencies {
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(20))
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "sparky983"
+            url = uri(
+                if (version.toString().endsWith("-SNAPSHOT")) {
+                    "https://repo.sparky983.me/snapshots"
+                } else {
+                    "https://repo.sparky983.me/releases"
+                },
+            )
+            credentials(PasswordCredentials::class)
+            authentication {
+                create<BasicAuthentication>("basic")
+            }
+        }
+    }
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+        }
     }
 }
 
