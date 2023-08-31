@@ -1,10 +1,10 @@
 package me.sparky983.helios.annotations;
 
-import javax.lang.model.element.TypeElement;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import javax.lang.model.element.TypeElement;
 
 /**
  * Indicates that the annotated element may be subject to backwards-incompatible changes without
