@@ -261,7 +261,9 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
    * @helios.examples
    * {@snippet :
    * Optional<User> findUser(String username) {
-   *     return Optional.of(User.repository(Repository.named("helios")));
+   *     return Optional.of(User.builder()
+   *             .repository(Repository.named("helios"))
+   *             .build());
    * }
    *
    * Optional<Repository> repository = findUser("Sparky983")
