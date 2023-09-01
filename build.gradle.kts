@@ -21,6 +21,8 @@ java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(20))
     }
+    withJavadocJar()
+    withSourcesJar()
 }
 
 publishing {
