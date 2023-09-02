@@ -103,11 +103,11 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
    * @helios.examples
    * {@snippet :
    * java.util.Optional<String> javaUtilOptional = java.util.Optional.of("Java!");
-   * Optional<String> optional = Optional.fromJava(javaUtilOptional);
+   * Optional<String> optional = Optional.from(javaUtilOptional);
    *}
    */
   @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-  static <T extends Object> Optional<T> fromJava(final java.util.Optional<T> optional) {
+  static <T extends Object> Optional<T> from(final java.util.Optional<T> optional) {
     return optional.map(Optional::present).orElse(Optional.absent());
   }
 

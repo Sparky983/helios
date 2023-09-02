@@ -50,12 +50,12 @@ class OptionalTests {
 
   @Test
   void testFromJavaOptional_WhenEmpty() {
-    assertEquals(Optional.absent(), Optional.fromJava(java.util.Optional.empty()));
+    assertEquals(Optional.absent(), Optional.from(java.util.Optional.empty()));
   }
 
   @Test
   void testFromJavaOptional_WhenPresent() {
-    assertEquals(Optional.present(VALUE), Optional.fromJava(java.util.Optional.of(VALUE)));
+    assertEquals(Optional.present(VALUE), Optional.from(java.util.Optional.of(VALUE)));
   }
 
   @Nested
