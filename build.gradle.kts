@@ -3,7 +3,6 @@ plugins {
     `maven-publish`
 
     id("com.diffplug.spotless") version "6.21.0"
-    id("org.checkerframework") version "0.6.27"
 }
 
 repositories {
@@ -57,13 +56,6 @@ spotless {
     kotlinGradle {
         ktlint()
     }
-}
-
-checkerFramework {
-    checkers = listOf(
-        "org.checkerframework.checker.nullness.NullnessChecker",
-    )
-    excludeTests = true
 }
 
 tasks {
