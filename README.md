@@ -1,6 +1,6 @@
 # Helios
 
-Helios is a core library that improves upon several shortcomings of the Java standard library.
+Helios is a core library that improves upon several shortcomings of the Java core libraries.
 
 ## Quick Links
 
