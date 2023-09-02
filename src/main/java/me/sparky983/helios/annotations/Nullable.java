@@ -7,11 +7,12 @@ import java.lang.annotation.Target;
 
 /**
  * Indicates that the annotated type is may contain {@code null}.
+ * <h2><a href="http://jspecify.org/">JSpecify</a></h2>
+ * This annotation generally has the same meaning as {@code org.jspecify.annotations.Nullable}
+ * in JSpecify 0.3, however, it is not well-defined as the meaning may change as JSpecify evolves.
  *
- * <h2>JSpecify</h2>
- * This annotation is temporary, and will be replaced with
- * {@code org.jspecify.annotations.Nullable} once <a href="http://jspecify.org/">JSpecify</a>
- * is fully released.
+ * <p>This annotation is also temporary, and will be replaced with
+ * {@code org.jspecify.annotations.Nullable} once is fully released.
  *
  * @since 0.1
  */
