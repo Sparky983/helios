@@ -4,7 +4,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import me.sparky983.helios.annotations.Nullable;
 
 /**
  * An {@code Optional} that contains no value.
