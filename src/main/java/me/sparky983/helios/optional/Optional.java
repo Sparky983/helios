@@ -3,7 +3,7 @@ package me.sparky983.helios.optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import me.sparky983.helios.annotations.Nullable;
 
 /**
  * An immutable container which may contain a non-null value.
