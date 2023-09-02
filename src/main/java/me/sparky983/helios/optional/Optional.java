@@ -1,10 +1,9 @@
 package me.sparky983.helios.optional;
 
-import org.checkerframework.checker.nullness.qual.Nullable;
-
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An immutable container which may contain a non-null value.
@@ -37,285 +36,281 @@ import java.util.function.Supplier;
  * }
  */
 public sealed interface Optional<T extends Object> permits Present, Absent {
+  /**
+   * Returns an absent {@code Optional}.
+   *
+   * @param <T> the type of the value
+   * @return an absent {@code Optional}
+   * @helios.apiNote Although the default implementation returns a singleton, identity-sensitive
+   * operations should be avoided since instances can still be instantiated directly.
+   * @helios.implNote This method returns a singleton instance of {@link Absent}.
+   */
+  @SuppressWarnings("unchecked")
+  static <T extends Object> Optional<T> absent() {
+    return (Absent<T>) Absent.ABSENT;
+  }
 
-    /**
-     * Returns an absent {@code Optional}.
-     *
-     * @param <T> the type of the value
-     * @return an absent {@code Optional}
-     * @helios.apiNote Although the default implementation returns a singleton, identity-sensitive
-     * operations should be avoided since instances can still be instantiated directly.
-     * @helios.implNote This method returns a singleton instance of {@link Absent}.
-     */
-    @SuppressWarnings("unchecked")
-    static <T extends Object> Optional<T> absent() {
+  /**
+   * Returns a present {@code Optional} containing the given value.
+   *
+   * @param value the value
+   * @return a present {@code Optional} containing the given value
+   * @param <T> the type of the value
+   * @throws NullPointerException if the value is {@code null}.
+   */
+  static <T extends Object> Optional<T> of(final T value) {
+    return new Present<>(value);
+  }
 
-        return (Absent<T>) Absent.ABSENT;
+  /**
+   * Returns an {@code Optional} containing the given value if it is non-null, otherwise an absent
+   * {@code Optional}.
+   * <p>
+   * This method is equivalent to {@code value == null ? Optional.absent() : Optional.of(value)}.
+   *
+   * @param value the value
+   * @return an {@code Optional} containing the given value if it is non-null, otherwise an absent
+   * {@code Optional}
+   * @param <T> the type of the value
+   * @helios.apiNote This method is intended to improve interoperability with null-based APIs.
+   * @helios.examples
+   * {@snippet :
+   * Map<String, String> map = Map.of("key", "value");
+   * Optional<String> optional = Optional.fromNullable(map.get("key"));
+   * }
+   */
+  static <T extends Object> Optional<T> fromNullable(final @Nullable T value) {
+    if (value != null) {
+      return of(value);
+    } else {
+      return absent();
     }
+  }
 
-    /**
-     * Returns a present {@code Optional} containing the given value.
-     *
-     * @param value the value
-     * @return a present {@code Optional} containing the given value
-     * @param <T> the type of the value
-     * @throws NullPointerException if the value is {@code null}.
-     */
-    static <T extends Object> Optional<T> of(final T value) {
+  /**
+   * Returns an {@code Optional} converted from a {@link java.util.Optional java.util.Optional}.
+   * <p>
+   * If the given {@link java.util.Optional java.util.Optional} is present, this returns an
+   * {@code Optional} containing the value of the {@link java.util.Optional java.util.Optional}, otherwise
+   * an absent {@code Optional}.
+   *
+   * @param optional the {@code java.util.Optional}
+   * @return an {@code Optional} converted from the given {@code java.util.Optional}
+   * @param <T> the type of the value
+   * @throws NullPointerException if the {@code java.util.Optional} is {@code null}.
+   * @helios.apiNote This method is intended to improve interoperability with
+   * {@code java.util.Optional}.
+   * @helios.examples
+   * {@snippet :
+   * java.util.Optional<String> javaUtilOptional = java.util.Optional.of("Java!");
+   * Optional<String> optional = Optional.fromJavaOptional(javautilOptional);
+   * }
+   */
+  @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+  static <T extends Object> Optional<T> fromJavaOptional(final java.util.Optional<T> optional) {
+    return optional.map(Optional::of).orElse(Optional.absent());
+  }
 
-        return new Present<>(value);
-    }
+  /**
+   * Checks whether this {@code Optional} is present.
+   *
+   * @return {@code true} if this {@code Optional} is present, otherwise {@code false}
+   * @helios.examples
+   * {@snippet :
+   * Optional<Integer> present = Optional.of(5);
+   * assert optional.isPresent();
+   *
+   * Optional<Integer> absent = Optional.absent();
+   * assert !absent.isPresent();
+   * }
+   */
+  boolean isPresent();
 
-    /**
-     * Returns an {@code Optional} containing the given value if it is non-null, otherwise an absent
-     * {@code Optional}.
-     * <p>
-     * This method is equivalent to {@code value == null ? Optional.absent() : Optional.of(value)}.
-     *
-     * @param value the value
-     * @return an {@code Optional} containing the given value if it is non-null, otherwise an absent
-     * {@code Optional}
-     * @param <T> the type of the value
-     * @helios.apiNote This method is intended to improve interoperability with null-based APIs.
-     * @helios.examples
-     * {@snippet :
-     * Map<String, String> map = Map.of("key", "value");
-     * Optional<String> optional = Optional.fromNullable(map.get("key"));
-     * }
-     */
-    static <T extends Object> Optional<T> fromNullable(final @Nullable T value) {
+  /**
+   * Checks whether this {@code Optional} is absent.
+   *
+   * @return {@code true} if this {@code Optional} is absent, otherwise {@code false}
+   * @helios.examples
+   * {@snippet :
+   * Optional<Integer> absent = Optional.absent();
+   * assert absent.isAbsent();
+   *
+   * Optional<Integer> present = Optional.of(5);
+   * assert !optional.isAbsent();
+   * }
+   */
+  boolean isAbsent();
 
-        if (value != null) {
-            return of(value);
-        } else {
-            return absent();
-        }
-    }
+  /**
+   * Returns this {@code Optional} if present, otherwise the given {@code Optional}.
+   *
+   * @param other the fallback {@code Optional}
+   * @return this {@code Optional} if present, otherwise the given {@code Optional}
+   * @throws NullPointerException if the given {@code Optional} is {@code null}.
+   * @helios.examples
+   * {@snippet :
+   * Optional<Integer> present = Optional.of(5);
+   * assert present.or(Optional.of(10)).equals(optional);
+   *
+   * Optional<Integer> absent = Optional.absent();
+   * assert absent.or(Optional.of(10)).equals(Optional.of(10));
+   * }
+   */
+  Optional<T> or(Optional<? extends T> other);
 
-    /**
-     * Returns an {@code Optional} converted from a {@link java.util.Optional java.util.Optional}.
-     * <p>
-     * If the given {@link java.util.Optional java.util.Optional} is present, this returns an
-     * {@code Optional} containing the value of the {@link java.util.Optional java.util.Optional}, otherwise
-     * an absent {@code Optional}.
-     *
-     * @param optional the {@code java.util.Optional}
-     * @return an {@code Optional} converted from the given {@code java.util.Optional}
-     * @param <T> the type of the value
-     * @throws NullPointerException if the {@code java.util.Optional} is {@code null}.
-     * @helios.apiNote This method is intended to improve interoperability with
-     * {@code java.util.Optional}.
-     * @helios.examples
-     * {@snippet :
-     * java.util.Optional<String> javaUtilOptional = java.util.Optional.of("Java!");
-     * Optional<String> optional = Optional.fromJavaOptional(javautilOptional);
-     * }
-     */
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    static <T extends Object> Optional<T> fromJavaOptional(
-            final java.util.Optional<T> optional) {
+  /**
+   * Returns this {@code Optional} if present, otherwise the return value of the given supplier.
+   *
+   * @param otherGetter the fallback value supplier
+   * @return this {@code Optional} if present, otherwise the return value of the given supplier
+   * @throws NullPointerException if the supplier is {@code null} or returns {@code null}.
+   * @helios.examples
+   * {@snippet :
+   * Optional<String> findCachedUser(String username) {
+   *     return Optional.absent(); // cache miss
+   * }
+   * Optional<String> findUser(String username) {
+   *     return Optional.of(username);
+   * }
+   *
+   * Optional<String> user = findCachedUser("sparky983")
+   *         .or(() -> findUser("sparky983"));
+   * }
+   */
+  Optional<T> or(Supplier<? extends Optional<? extends T>> otherGetter);
 
-        return optional.<Optional<T>>map(Optional::of).orElse(Optional.absent());
-    }
+  /**
+   * Returns the value of this {@code Optional} if present, otherwise the given value.
+   *
+   * @param defaultValue the fallback value
+   * @return the value of this {@code Optional} if present, otherwise the given value
+   * @throws NullPointerException if the fallback value is {@code null}.
+   * @helios.examples
+   * {@snippet :
+   * Optional<Integer> present = Optional.of(5);
+   * assert present.orDefault(10) == 5;
+   *
+   * Optional<Integer> absent = Optional.absent();
+   * assert absent.orDefault(10) == 10;
+   * }
+   */
+  T orDefault(T defaultValue);
 
-    /**
-     * Checks whether this {@code Optional} is present.
-     *
-     * @return {@code true} if this {@code Optional} is present, otherwise {@code false}
-     * @helios.examples
-     * {@snippet :
-     * Optional<Integer> present = Optional.of(5);
-     * assert optional.isPresent();
-     *
-     * Optional<Integer> absent = Optional.absent();
-     * assert !absent.isPresent();
-     * }
-     */
-    boolean isPresent();
+  /**
+   * Returns the value of this {@code Optional} if present, otherwise the return value of the
+   * given supplier.
+   *
+   * @param defaultValueGetter the fallback value supplier
+   * @return the value of this {@code Optional} if present, otherwise the return value of the
+   * given supplier
+   * @throws NullPointerException if the given supplier is {@code null} or returns {@code null}.
+   * @helios.examples
+   * {@snippet :
+   * Optional<Integer> present = Optional.of(5);
+   * assert present.orGet(() -> 10) == 5;
+   *
+   * Optional<Integer> absent = Optional.absent();
+   * assert absent.orGet(() -> 10) == 10;
+   * }
+   */
+  T orGet(Supplier<? extends T> defaultValueGetter);
 
-    /**
-     * Checks whether this {@code Optional} is absent.
-     *
-     * @return {@code true} if this {@code Optional} is absent, otherwise {@code false}
-     * @helios.examples
-     * {@snippet :
-     * Optional<Integer> absent = Optional.absent();
-     * assert absent.isAbsent();
-     *
-     * Optional<Integer> present = Optional.of(5);
-     * assert !optional.isAbsent();
-     * }
-     */
-    boolean isAbsent();
+  /**
+   * Returns the value of this {@code Optional} if present, otherwise {@code null}.
+   *
+   * @return the value of this {@code Optional} if present, otherwise {@code null}
+   * @helios.apiNote This method is intended to improve interoperability with null-based APIs.
+   * @helios.examples
+   * {@snippet :
+   * String number = Optional.absent()
+   *         .map(Object::toString)
+   *         .orNull();
+   * }
+   */
+  @Nullable T orNull();
 
-    /**
-     * Returns this {@code Optional} if present, otherwise the given {@code Optional}.
-     *
-     * @param other the fallback {@code Optional}
-     * @return this {@code Optional} if present, otherwise the given {@code Optional}
-     * @throws NullPointerException if the given {@code Optional} is {@code null}.
-     * @helios.examples
-     * {@snippet :
-     * Optional<Integer> present = Optional.of(5);
-     * assert present.or(Optional.of(10)).equals(optional);
-     *
-     * Optional<Integer> absent = Optional.absent();
-     * assert absent.or(Optional.of(10)).equals(Optional.of(10));
-     * }
-     */
-    Optional<T> or(Optional<? extends T> other);
+  /**
+   * If this {@code Optional} is present, returns an {@code Optional} containing the value after
+   * applying the given mapper to it, otherwise returns an absent {@code Optional}.
+   *
+   * @param mapper the mapper function
+   * @return an {@code Optional} containing the mapped value if this {@code Optional} is present,
+   * otherwise an absent {@code Optional}
+   * @param <M> the result of the mapper
+   * @throws NullPointerException if the given mapper is {@code null} or returns {@code null}.
+   * @helios.examples
+   * {@snippet :
+   * Optional<Integer> present = Optional.of(5);
+   * assert present.map(n -> n * 2).equals(Optional.of(10));
+   *
+   * Optional<Integer> absent = Optional.absent();
+   * assert absent.map(n -> n * 2).isAbsent();
+   * }
+   */
+  <M extends Object> Optional<M> map(Function<? super T, ? extends M> mapper);
 
-    /**
-     * Returns this {@code Optional} if present, otherwise the return value of the given supplier.
-     *
-     * @param otherGetter the fallback value supplier
-     * @return this {@code Optional} if present, otherwise the return value of the given supplier
-     * @throws NullPointerException if the supplier is {@code null} or returns {@code null}.
-     * @helios.examples
-     * {@snippet :
-     * Optional<String> findCachedUser(String username) {
-     *     return Optional.absent(); // cache miss
-     * }
-     * Optional<String> findUser(String username) {
-     *     return Optional.of(username);
-     * }
-     *
-     * Optional<String> user = findCachedUser("sparky983")
-     *         .or(() -> findUser("sparky983"));
-     * }
-     */
-    Optional<T> or(Supplier<? extends Optional<? extends T>> otherGetter);
+  /**
+   * If this {@code Optional} is present, returns the result of applying the given mapper to the
+   * value of this {@code Optional}, otherwise returns an absent {@code Optional}.
+   *
+   * @param mapper the mapper function
+   * @return an {@code Optional} containing the result of applying the mapping function to the
+   * value of this {@code Optional} if present, otherwise an absent {@code Optional}.
+   * @param <M> the result of the mapper
+   * @throws NullPointerException if the mapper is {@code null} or returns {@code null}.
+   * @helios.examples
+   * {@snippet :
+   * Optional<User> findUser(String username) {
+   *     return Optional.of(User.builder()
+   *             .repository(Repository.named("helios"))
+   *             .build());
+   * }
+   *
+   * Optional<Repository> repository = findUser("Sparky983")
+   *        .flatMap(user -> user.findRepository("helios"));
+   * }
+   */
+  <M extends Object> Optional<M> flatMap(
+      Function<? super T, ? extends Optional<? extends M>> mapper);
 
-    /**
-     * Returns the value of this {@code Optional} if present, otherwise the given value.
-     *
-     * @param defaultValue the fallback value
-     * @return the value of this {@code Optional} if present, otherwise the given value
-     * @throws NullPointerException if the fallback value is {@code null}.
-     * @helios.examples
-     * {@snippet :
-     * Optional<Integer> present = Optional.of(5);
-     * assert present.orDefault(10) == 5;
-     *
-     * Optional<Integer> absent = Optional.absent();
-     * assert absent.orDefault(10) == 10;
-     * }
-     */
-    T orDefault(T defaultValue);
+  /**
+   * If this {@code Optional} is present and the value matches the given predicate, returns this
+   * {@code Optional}, otherwise returns an absent {@code Optional}.
+   *
+   * @param predicate the predicate
+   * @return this {@code Optional} if the value matches the given predicate, otherwise an absent
+   * {@code Optional}
+   * @throws NullPointerException if the predicate is {@code null}.
+   * @helios.examples
+   * {@snippet :
+   * Optional<Integer> present = Optional.of(5);
+   * assert present.filter(n -> n % 2 == 1).equals(present);
+   * assert present.filter(n -> n % 2 == 0).isAbsent();
+   * }
+   */
+  Optional<T> filter(Predicate<? super T> predicate);
 
-    /**
-     * Returns the value of this {@code Optional} if present, otherwise the return value of the
-     * given supplier.
-     *
-     * @param defaultValueGetter the fallback value supplier
-     * @return the value of this {@code Optional} if present, otherwise the return value of the
-     * given supplier
-     * @throws NullPointerException if the given supplier is {@code null} or returns {@code null}.
-     * @helios.examples
-     * {@snippet :
-     * Optional<Integer> present = Optional.of(5);
-     * assert present.orGet(() -> 10) == 5;
-     *
-     * Optional<Integer> absent = Optional.absent();
-     * assert absent.orGet(() -> 10) == 10;
-     * }
-     */
-    T orGet(Supplier<? extends T> defaultValueGetter);
+  /**
+   * Checks whether this {@code Optional} is equal to the given object.
+   * <p>
+   * The two are equal if any of the following are true:
+   * <ul>
+   *     <li>This {@code Optional} and the given object are both present and contain the same
+   *     value</li>
+   *     <li>This {@code Optional} and the given object are both absent</li>
+   * </ul>
+   *
+   * @param obj the object to compare to
+   * @return {@code true} if they are equal, otherwise {@code false}
+   */
+  @Override
+  boolean equals(@Nullable Object obj);
 
-    /**
-     * Returns the value of this {@code Optional} if present, otherwise {@code null}.
-     *
-     * @return the value of this {@code Optional} if present, otherwise {@code null}
-     * @helios.apiNote This method is intended to improve interoperability with null-based APIs.
-     * @helios.examples
-     * {@snippet :
-     * String number = Optional.absent()
-     *         .map(Object::toString)
-     *         .orNull();
-     * }
-     */
-    @Nullable T orNull();
-
-    /**
-     * If this {@code Optional} is present, returns an {@code Optional} containing the value after
-     * applying the given mapper to it, otherwise returns an absent {@code Optional}.
-     *
-     * @param mapper the mapper function
-     * @return an {@code Optional} containing the mapped value if this {@code Optional} is present,
-     * otherwise an absent {@code Optional}
-     * @param <M> the result of the mapper
-     * @throws NullPointerException if the given mapper is {@code null} or returns {@code null}.
-     * @helios.examples
-     * {@snippet :
-     * Optional<Integer> present = Optional.of(5);
-     * assert present.map(n -> n * 2).equals(Optional.of(10));
-     *
-     * Optional<Integer> absent = Optional.absent();
-     * assert absent.map(n -> n * 2).isAbsent();
-     * }
-     */
-    <M extends Object> Optional<M> map(Function<? super T, ? extends M> mapper);
-
-    /**
-     * If this {@code Optional} is present, returns the result of applying the given mapper to the
-     * value of this {@code Optional}, otherwise returns an absent {@code Optional}.
-     *
-     * @param mapper the mapper function
-     * @return an {@code Optional} containing the result of applying the mapping function to the
-     * value of this {@code Optional} if present, otherwise an absent {@code Optional}.
-     * @param <M> the result of the mapper
-     * @throws NullPointerException if the mapper is {@code null} or returns {@code null}.
-     * @helios.examples
-     * {@snippet :
-     * Optional<User> findUser(String username) {
-     *     return Optional.of(User.repository(Repository.named("helios")));
-     * }
-     *
-     * Optional<Repository> repository = findUser("Sparky983")
-     *        .flatMap(user -> user.findRepository("helios"));
-     * }
-     */
-    <M extends Object> Optional<M> flatMap(
-            Function<? super T, ? extends Optional<? extends M>> mapper);
-
-    /**
-     * If this {@code Optional} is present and the value matches the given predicate, returns this
-     * {@code Optional}, otherwise returns an absent {@code Optional}.
-     *
-     * @param predicate the predicate
-     * @return this {@code Optional} if the value matches the given predicate, otherwise an absent
-     * {@code Optional}
-     * @throws NullPointerException if the predicate is {@code null}.
-     * @helios.examples
-     * {@snippet :
-     * Optional<Integer> present = Optional.of(5);
-     * assert present.filter(n -> n % 2 == 1).equals(present);
-     * assert present.filter(n -> n % 2 == 0).isAbsent();
-     * }
-     */
-    Optional<T> filter(Predicate<? super T> predicate);
-
-    /**
-     * Checks whether this {@code Optional} is equal to the given object.
-     * <p>
-     * The two are equal if any of the following are true:
-     * <ul>
-     *     <li>This {@code Optional} and the given object are both present and contain the same
-     *     value</li>
-     *     <li>This {@code Optional} and the given object are both absent</li>
-     * </ul>
-     *
-     * @param obj the object to compare to
-     * @return {@code true} if they are equal, otherwise {@code false}
-     */
-    @Override
-    boolean equals(@Nullable Object obj);
-
-    /**
-     * Returns the hash code of this {@code Optional}'s value, or {@code 0} if it is absent.
-     *
-     * @return the hash code of this {@code Optional}'s value, or {@code 0} if it is absent
-     */
-    @Override
-    int hashCode();
+  /**
+   * Returns the hash code of this {@code Optional}'s value, or {@code 0} if it is absent.
+   *
+   * @return the hash code of this {@code Optional}'s value, or {@code 0} if it is absent
+   */
+  @Override
+  int hashCode();
 }
