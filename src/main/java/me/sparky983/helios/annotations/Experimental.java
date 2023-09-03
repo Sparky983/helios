@@ -19,8 +19,6 @@ import javax.lang.model.element.TypeElement;
  * element, the annotation indicates that the annotated element will most likely remain
  * experimental even after the enclosing element is stabilised (this annotation is removed
  * from the enclosing element).
- *
- * @since 0.1
  */
 @Retention(RetentionPolicy.CLASS)
 @Target({

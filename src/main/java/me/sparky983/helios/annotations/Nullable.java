@@ -15,10 +15,7 @@ import java.lang.annotation.Target;
  *
  * <p>This annotation is also temporary, and will be replaced with
  * {@code org.jspecify.annotations.Nullable} once is fully released.
- *
- * @since 0.1
  */
-@Experimental
 @Retention(RetentionPolicy.CLASS)
 @Target(ElementType.TYPE_USE)
 public @interface Nullable {}
