@@ -49,24 +49,24 @@ class OptionalTests {
   }
 
   @Test
-  void testFromJavaOptional_WhenEmpty() {
+  void testFrom_WhenEmpty() {
     assertEquals(Optional.absent(), Optional.from(java.util.Optional.empty()));
   }
 
   @Test
-  void testFromJavaOptional_WhenPresent() {
+  void testFrom_WhenPresent() {
     assertEquals(Optional.present(VALUE), Optional.from(java.util.Optional.of(VALUE)));
   }
 
   @Nested
   class PresentTests {
     @Test
-    void testOf() {
+    void testPresent() {
       assertEquals(VALUE, ((Present<?>) Optional.present(VALUE)).value());
     }
 
     @Test
-    void testOf_WhenNull() {
+    void testPresent_WhenNull() {
       var exception = assertThrows(NullPointerException.class, () -> Optional.present(null));
       assertEquals("value cannot be null", exception.getMessage());
     }
