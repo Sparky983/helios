@@ -105,7 +105,8 @@ class OptionalTests {
 
     @Test
     void testOr_Supplier_WhenPresent() {
-      assertEquals(Optional.present(VALUE), Optional.present(VALUE).or(() -> Optional.present(VALUE2)));
+      assertEquals(
+          Optional.present(VALUE), Optional.present(VALUE).or(() -> Optional.present(VALUE2)));
     }
 
     @Test
