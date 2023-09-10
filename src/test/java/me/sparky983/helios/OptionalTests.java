@@ -1,4 +1,4 @@
-package me.sparky983.helios.optional;
+package me.sparky983.helios;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

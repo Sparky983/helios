@@ -12,5 +12,5 @@ import me.sparky983.helios.annotations.Experimental;
 module me.sparky983.helios {
   requires static java.compiler; // for Javadocs
 
-  exports me.sparky983.helios.optional;
+  exports me.sparky983.helios;
 }
