@@ -5,7 +5,6 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import me.sparky983.helios.annotations.Nullable;
 
-
 /**
  * An immutable container which may contain a non-null value.
  * <h2>Shortcomings of null</h2>
