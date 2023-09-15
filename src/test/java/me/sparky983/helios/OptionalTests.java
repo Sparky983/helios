@@ -1,5 +1,6 @@
 package me.sparky983.helios;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -143,6 +144,20 @@ class OptionalTests {
     @Test
     void testOrNull() {
       assertEquals(VALUE, Optional.present(VALUE).orNull());
+    }
+
+    @Test
+    void testOrThrow() {
+      var exception = new Exception();
+      var value = assertDoesNotThrow(() -> Optional.present(VALUE).orThrow(() -> exception));
+      assertEquals(VALUE, value);
+    }
+
+    @Test
+    void testOrThrow_WhenNull() {
+      var present = Optional.present(VALUE);
+      var exception = assertThrows(NullPointerException.class, () -> present.orThrow(null));
+      assertEquals("exceptionSupplier cannot be null", exception.getMessage());
     }
 
     @Test
@@ -316,6 +331,28 @@ class OptionalTests {
     @Test
     void testOrNull() {
       assertNull(Optional.absent().orNull());
+    }
+
+    @Test
+    void testOrThrow() {
+      var absent = Optional.absent();
+      var exception = new Exception();
+      var thrown = assertThrows(Exception.class, () -> absent.orThrow(() -> exception));
+      assertEquals(exception, thrown);
+    }
+
+    @Test
+    void testOrThrow_WhenNull() {
+      var present = Optional.absent();
+      var exception = assertThrows(NullPointerException.class, () -> present.orThrow(null));
+      assertEquals("exceptionSupplier cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void testOrThrow_WhenReturnsNull() {
+      var present = Optional.absent();
+      var exception = assertThrows(NullPointerException.class, () -> present.orThrow(() -> null));
+      assertEquals("exceptionSupplier cannot return null", exception.getMessage());
     }
 
     @Test

@@ -66,6 +66,16 @@ public record Absent<T extends Object>() implements Optional<T> {
   }
 
   @Override
+  public <E extends Throwable> T orThrow(final Supplier<? extends E> exceptionSupplier) throws E {
+    Objects.requireNonNull(exceptionSupplier, "exceptionSupplier cannot be null");
+
+    final var exception = exceptionSupplier.get();
+    Objects.requireNonNull(exception, "exceptionSupplier cannot return null");
+
+    throw exception;
+  }
+
+  @Override
   public <M extends Object> Optional<M> map(final Function<? super T, ? extends M> mapper) {
     Objects.requireNonNull(mapper, "mapper cannot be null");
 

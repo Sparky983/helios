@@ -443,6 +443,18 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
   @Nullable T orNull();
 
   /**
+   * Returns the value of this {@code Optional} if present, otherwise throws the exception provided
+   * by the given supplier.
+   *
+   * @param exceptionSupplier the supplier of the exception to be thrown
+   * @param <E> the type of the exception to be thrown
+   * @return the value of this {@code Optional} if present
+   * @throws NullPointerException if the given supplier is {@code null} or returns {@code null}.
+   * @throws E if this {@code Optional} is absent
+   */
+  <E extends Throwable> T orThrow(Supplier<? extends E> exceptionSupplier) throws E;
+
+  /**
    * If this {@code Optional} is present, returns an {@code Optional} containing the value after
    * applying the given mapper to it, otherwise returns an absent {@code Optional}.
    *
