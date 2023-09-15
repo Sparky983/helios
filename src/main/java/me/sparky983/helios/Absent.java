@@ -35,10 +35,10 @@ public record Absent<T extends Object>() implements Optional<T> {
   }
 
   @Override
-  public Optional<T> or(final Supplier<? extends Optional<? extends T>> otherGetter) {
-    Objects.requireNonNull(otherGetter, "otherGetter cannot be null");
+  public Optional<T> or(final Supplier<? extends Optional<? extends T>> otherSupplier) {
+    Objects.requireNonNull(otherSupplier, "otherSupplier cannot be null");
 
-    final var other = Objects.requireNonNull(otherGetter.get(), "otherGetter cannot return null");
+    final var other = Objects.requireNonNull(otherSupplier.get(), "otherSupplier cannot return null");
 
     return or(other);
   }
@@ -51,11 +51,11 @@ public record Absent<T extends Object>() implements Optional<T> {
   }
 
   @Override
-  public T orGet(final Supplier<? extends T> defaultValueGetter) {
-    Objects.requireNonNull(defaultValueGetter, "defaultValueGetter cannot be null");
+  public T orGet(final Supplier<? extends T> defaultValueSupplier) {
+    Objects.requireNonNull(defaultValueSupplier, "defaultValueSupplier cannot be null");
 
-    final var defaultValue = defaultValueGetter.get();
-    Objects.requireNonNull(defaultValue, "defaultValueGetter cannot return null");
+    final var defaultValue = defaultValueSupplier.get();
+    Objects.requireNonNull(defaultValue, "defaultValueSupplier cannot return null");
 
     return defaultValue;
   }

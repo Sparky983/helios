@@ -43,8 +43,8 @@ public record Present<T extends Object>(T value) implements Optional<T> {
   }
 
   @Override
-  public Optional<T> or(final Supplier<? extends Optional<? extends T>> otherGetter) {
-    Objects.requireNonNull(otherGetter, "otherGetter cannot be null");
+  public Optional<T> or(final Supplier<? extends Optional<? extends T>> otherSupplier) {
+    Objects.requireNonNull(otherSupplier, "otherSupplier cannot be null");
 
     return this;
   }
@@ -57,8 +57,8 @@ public record Present<T extends Object>(T value) implements Optional<T> {
   }
 
   @Override
-  public T orGet(final Supplier<? extends T> defaultValueGetter) {
-    Objects.requireNonNull(defaultValueGetter, "defaultValueGetter cannot be null");
+  public T orGet(final Supplier<? extends T> defaultValueSupplier) {
+    Objects.requireNonNull(defaultValueSupplier, "defaultValueSupplier cannot be null");
 
     return value;
   }

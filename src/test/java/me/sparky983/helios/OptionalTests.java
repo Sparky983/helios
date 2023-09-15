@@ -114,7 +114,7 @@ class OptionalTests {
     void testOr_Supplier_WhenNull() {
       var present = Optional.present(VALUE);
       var thrown = assertThrows(NullPointerException.class, () -> present.or(NULL_SUPPLIER));
-      assertEquals("otherGetter cannot be null", thrown.getMessage());
+      assertEquals("otherSupplier cannot be null", thrown.getMessage());
     }
 
     @Test
@@ -138,7 +138,7 @@ class OptionalTests {
     void testOrGet_WhenNull() {
       var present = Optional.present(VALUE);
       var thrown = assertThrows(NullPointerException.class, () -> present.orGet(null));
-      assertEquals("defaultValueGetter cannot be null", thrown.getMessage());
+      assertEquals("defaultValueSupplier cannot be null", thrown.getMessage());
     }
 
     @Test
@@ -287,14 +287,14 @@ class OptionalTests {
     void testOr_Supplier_WhenNull() {
       var absent = Optional.absent();
       var thrown = assertThrows(NullPointerException.class, () -> absent.or(NULL_SUPPLIER));
-      assertEquals("otherGetter cannot be null", thrown.getMessage());
+      assertEquals("otherSupplier cannot be null", thrown.getMessage());
     }
 
     @Test
     void testOr_Supplier_WhenSupplierReturnsNull() {
       var absent = Optional.absent();
       var thrown = assertThrows(NullPointerException.class, () -> absent.or(() -> null));
-      assertEquals("otherGetter cannot return null", thrown.getMessage());
+      assertEquals("otherSupplier cannot return null", thrown.getMessage());
     }
 
     @Test
@@ -318,14 +318,14 @@ class OptionalTests {
     void testOrGet_WhenNull() {
       var absent = Optional.absent();
       var thrown = assertThrows(NullPointerException.class, () -> absent.orGet(null));
-      assertEquals("defaultValueGetter cannot be null", thrown.getMessage());
+      assertEquals("defaultValueSupplier cannot be null", thrown.getMessage());
     }
 
     @Test
     void testOrGet_WhenSupplierReturnsNull() {
       var absent = Optional.absent();
       var thrown = assertThrows(NullPointerException.class, () -> absent.orGet(() -> null));
-      assertEquals("defaultValueGetter cannot return null", thrown.getMessage());
+      assertEquals("defaultValueSupplier cannot return null", thrown.getMessage());
     }
 
     @Test
