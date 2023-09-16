@@ -38,7 +38,8 @@ public record Absent<T extends Object>() implements Optional<T> {
   public Optional<T> or(final Supplier<? extends Optional<? extends T>> otherSupplier) {
     Objects.requireNonNull(otherSupplier, "otherSupplier cannot be null");
 
-    final var other = Objects.requireNonNull(otherSupplier.get(), "otherSupplier cannot return null");
+    final var other =
+        Objects.requireNonNull(otherSupplier.get(), "otherSupplier cannot return null");
 
     return or(other);
   }
