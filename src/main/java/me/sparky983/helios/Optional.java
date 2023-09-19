@@ -374,7 +374,7 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
   /**
    * Returns this {@code Optional} if present, otherwise the return value of the given supplier.
    *
-   * @param otherGetter the fallback value supplier
+   * @param otherSupplier the fallback value supplier
    * @return this {@code Optional} if present, otherwise the return value of the given supplier
    * @throws NullPointerException if the supplier is {@code null} or returns {@code null}.
    * @helios.examples
@@ -390,7 +390,7 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
    *         .or(() -> findUser("sparky983"));
    *}
    */
-  Optional<T> or(Supplier<? extends Optional<? extends T>> otherGetter);
+  Optional<T> or(Supplier<? extends Optional<? extends T>> otherSupplier);
 
   /**
    * Returns the value of this {@code Optional} if present, otherwise the given value.
@@ -413,7 +413,7 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
    * Returns the value of this {@code Optional} if present, otherwise the return value of the
    * given supplier.
    *
-   * @param defaultValueGetter the fallback value supplier
+   * @param defaultValueSupplier the fallback value supplier
    * @return the value of this {@code Optional} if present, otherwise the return value of the
    * given supplier
    * @throws NullPointerException if the given supplier is {@code null} or returns {@code null}.
@@ -426,7 +426,7 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
    * assert absent.orGet(() -> 10) == 10;
    *}
    */
-  T orGet(Supplier<? extends T> defaultValueGetter);
+  T orGet(Supplier<? extends T> defaultValueSupplier);
 
   /**
    * Returns the value of this {@code Optional} if present, otherwise {@code null}.
@@ -441,6 +441,18 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
    * }
    */
   @Nullable T orNull();
+
+  /**
+   * Returns the value of this {@code Optional} if present, otherwise throws the exception provided
+   * by the given supplier.
+   *
+   * @param exceptionSupplier the supplier of the exception to be thrown
+   * @param <E> the type of the exception to be thrown
+   * @return the value of this {@code Optional} if present
+   * @throws NullPointerException if the given supplier is {@code null} or returns {@code null}.
+   * @throws E if this {@code Optional} is absent
+   */
+  <E extends Throwable> T orThrow(Supplier<? extends E> exceptionSupplier) throws E;
 
   /**
    * If this {@code Optional} is present, returns an {@code Optional} containing the value after

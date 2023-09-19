@@ -1,5 +1,6 @@
 package me.sparky983.helios;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -67,8 +68,8 @@ class OptionalTests {
 
     @Test
     void testOf_WhenNull() {
-      var exception = assertThrows(NullPointerException.class, () -> Optional.present(null));
-      assertEquals("value cannot be null", exception.getMessage());
+      var thrown = assertThrows(NullPointerException.class, () -> Optional.present(null));
+      assertEquals("value cannot be null", thrown.getMessage());
     }
 
     @Test
@@ -94,8 +95,8 @@ class OptionalTests {
     @Test
     void testOr_Optional_WhenNull() {
       var present = Optional.present(VALUE);
-      var exception = assertThrows(NullPointerException.class, () -> present.or(NULL_OPTIONAL));
-      assertEquals("other cannot be null", exception.getMessage());
+      var thrown = assertThrows(NullPointerException.class, () -> present.or(NULL_OPTIONAL));
+      assertEquals("other cannot be null", thrown.getMessage());
     }
 
     @Test
@@ -112,8 +113,8 @@ class OptionalTests {
     @Test
     void testOr_Supplier_WhenNull() {
       var present = Optional.present(VALUE);
-      var exception = assertThrows(NullPointerException.class, () -> present.or(NULL_SUPPLIER));
-      assertEquals("otherGetter cannot be null", exception.getMessage());
+      var thrown = assertThrows(NullPointerException.class, () -> present.or(NULL_SUPPLIER));
+      assertEquals("otherSupplier cannot be null", thrown.getMessage());
     }
 
     @Test
@@ -124,8 +125,8 @@ class OptionalTests {
     @Test
     void testOrDefault_WhenNull() {
       var present = Optional.present(VALUE);
-      var exception = assertThrows(NullPointerException.class, () -> present.orDefault(null));
-      assertEquals("defaultValue cannot be null", exception.getMessage());
+      var thrown = assertThrows(NullPointerException.class, () -> present.orDefault(null));
+      assertEquals("defaultValue cannot be null", thrown.getMessage());
     }
 
     @Test
@@ -136,13 +137,27 @@ class OptionalTests {
     @Test
     void testOrGet_WhenNull() {
       var present = Optional.present(VALUE);
-      var exception = assertThrows(NullPointerException.class, () -> present.orGet(null));
-      assertEquals("defaultValueGetter cannot be null", exception.getMessage());
+      var thrown = assertThrows(NullPointerException.class, () -> present.orGet(null));
+      assertEquals("defaultValueSupplier cannot be null", thrown.getMessage());
     }
 
     @Test
     void testOrNull() {
       assertEquals(VALUE, Optional.present(VALUE).orNull());
+    }
+
+    @Test
+    void testOrThrow() {
+      var exception = new Exception();
+      var value = assertDoesNotThrow(() -> Optional.present(VALUE).orThrow(() -> exception));
+      assertEquals(VALUE, value);
+    }
+
+    @Test
+    void testOrThrow_WhenNull() {
+      var present = Optional.present(VALUE);
+      var thrown = assertThrows(NullPointerException.class, () -> present.orThrow(null));
+      assertEquals("exceptionSupplier cannot be null", thrown.getMessage());
     }
 
     @Test
@@ -156,15 +171,15 @@ class OptionalTests {
     @Test
     void testMap_WhenNull() {
       var present = Optional.present(VALUE);
-      var exception = assertThrows(NullPointerException.class, () -> present.map(null));
-      assertEquals("mapper cannot be null", exception.getMessage());
+      var thrown = assertThrows(NullPointerException.class, () -> present.map(null));
+      assertEquals("mapper cannot be null", thrown.getMessage());
     }
 
     @Test
     void testMap_WhenMapperReturnsNull() {
       var present = Optional.present(VALUE);
-      var exception = assertThrows(NullPointerException.class, () -> present.map((o) -> null));
-      assertEquals("mapper cannot return null", exception.getMessage());
+      var thrown = assertThrows(NullPointerException.class, () -> present.map((o) -> null));
+      assertEquals("mapper cannot return null", thrown.getMessage());
     }
 
     @Test
@@ -178,15 +193,15 @@ class OptionalTests {
     @Test
     void testFlatMap_WhenNull() {
       var present = Optional.present(VALUE);
-      var exception = assertThrows(NullPointerException.class, () -> present.flatMap(null));
-      assertEquals("mapper cannot be null", exception.getMessage());
+      var thrown = assertThrows(NullPointerException.class, () -> present.flatMap(null));
+      assertEquals("mapper cannot be null", thrown.getMessage());
     }
 
     @Test
     void testFlatMap_WhenMapperReturnsNull() {
       var present = Optional.present(VALUE);
-      var exception = assertThrows(NullPointerException.class, () -> present.flatMap((o) -> null));
-      assertEquals("mapper cannot return null", exception.getMessage());
+      var thrown = assertThrows(NullPointerException.class, () -> present.flatMap((o) -> null));
+      assertEquals("mapper cannot return null", thrown.getMessage());
     }
 
     @Test
@@ -208,8 +223,8 @@ class OptionalTests {
     @Test
     void testFilter_WhenNull() {
       var present = Optional.present(VALUE);
-      var exception = assertThrows(NullPointerException.class, () -> present.filter(null));
-      assertEquals("predicate cannot be null", exception.getMessage());
+      var thrown = assertThrows(NullPointerException.class, () -> present.filter(null));
+      assertEquals("predicate cannot be null", thrown.getMessage());
     }
 
     @Test
@@ -254,8 +269,8 @@ class OptionalTests {
     @Test
     void testOr_Optional_WhenNull() {
       var absent = Optional.absent();
-      var exception = assertThrows(NullPointerException.class, () -> absent.or(NULL_OPTIONAL));
-      assertEquals("other cannot be null", exception.getMessage());
+      var thrown = assertThrows(NullPointerException.class, () -> absent.or(NULL_OPTIONAL));
+      assertEquals("other cannot be null", thrown.getMessage());
     }
 
     @Test
@@ -271,15 +286,15 @@ class OptionalTests {
     @Test
     void testOr_Supplier_WhenNull() {
       var absent = Optional.absent();
-      var exception = assertThrows(NullPointerException.class, () -> absent.or(NULL_SUPPLIER));
-      assertEquals("otherGetter cannot be null", exception.getMessage());
+      var thrown = assertThrows(NullPointerException.class, () -> absent.or(NULL_SUPPLIER));
+      assertEquals("otherSupplier cannot be null", thrown.getMessage());
     }
 
     @Test
     void testOr_Supplier_WhenSupplierReturnsNull() {
       var absent = Optional.absent();
-      var exception = assertThrows(NullPointerException.class, () -> absent.or(() -> null));
-      assertEquals("otherGetter cannot return null", exception.getMessage());
+      var thrown = assertThrows(NullPointerException.class, () -> absent.or(() -> null));
+      assertEquals("otherSupplier cannot return null", thrown.getMessage());
     }
 
     @Test
@@ -290,8 +305,8 @@ class OptionalTests {
     @Test
     void testOrDefault_WhenNull() {
       var absent = Optional.absent();
-      var exception = assertThrows(NullPointerException.class, () -> absent.orDefault(null));
-      assertEquals("defaultValue cannot be null", exception.getMessage());
+      var thrown = assertThrows(NullPointerException.class, () -> absent.orDefault(null));
+      assertEquals("defaultValue cannot be null", thrown.getMessage());
     }
 
     @Test
@@ -302,20 +317,42 @@ class OptionalTests {
     @Test
     void testOrGet_WhenNull() {
       var absent = Optional.absent();
-      var exception = assertThrows(NullPointerException.class, () -> absent.orGet(null));
-      assertEquals("defaultValueGetter cannot be null", exception.getMessage());
+      var thrown = assertThrows(NullPointerException.class, () -> absent.orGet(null));
+      assertEquals("defaultValueSupplier cannot be null", thrown.getMessage());
     }
 
     @Test
     void testOrGet_WhenSupplierReturnsNull() {
       var absent = Optional.absent();
-      var exception = assertThrows(NullPointerException.class, () -> absent.orGet(() -> null));
-      assertEquals("defaultValueGetter cannot return null", exception.getMessage());
+      var thrown = assertThrows(NullPointerException.class, () -> absent.orGet(() -> null));
+      assertEquals("defaultValueSupplier cannot return null", thrown.getMessage());
     }
 
     @Test
     void testOrNull() {
       assertNull(Optional.absent().orNull());
+    }
+
+    @Test
+    void testOrThrow() {
+      var absent = Optional.absent();
+      var exception = new Exception();
+      var thrown = assertThrows(Exception.class, () -> absent.orThrow(() -> exception));
+      assertEquals(exception, thrown);
+    }
+
+    @Test
+    void testOrThrow_WhenNull() {
+      var present = Optional.absent();
+      var thrown = assertThrows(NullPointerException.class, () -> present.orThrow(null));
+      assertEquals("exceptionSupplier cannot be null", thrown.getMessage());
+    }
+
+    @Test
+    void testOrThrow_WhenReturnsNull() {
+      var present = Optional.absent();
+      var thrown = assertThrows(NullPointerException.class, () -> present.orThrow(() -> null));
+      assertEquals("exceptionSupplier cannot return null", thrown.getMessage());
     }
 
     @Test
@@ -326,8 +363,8 @@ class OptionalTests {
     @Test
     void testMap_WhenNull() {
       var absent = Optional.absent();
-      var exception = assertThrows(NullPointerException.class, () -> absent.map(null));
-      assertEquals("mapper cannot be null", exception.getMessage());
+      var thrown = assertThrows(NullPointerException.class, () -> absent.map(null));
+      assertEquals("mapper cannot be null", thrown.getMessage());
     }
 
     @Test
@@ -338,8 +375,8 @@ class OptionalTests {
     @Test
     void testFlatMap_WhenNull() {
       var absent = Optional.absent();
-      var exception = assertThrows(NullPointerException.class, () -> absent.flatMap(null));
-      assertEquals("mapper cannot be null", exception.getMessage());
+      var thrown = assertThrows(NullPointerException.class, () -> absent.flatMap(null));
+      assertEquals("mapper cannot be null", thrown.getMessage());
     }
 
     @Test
@@ -350,8 +387,8 @@ class OptionalTests {
     @Test
     void testFilter_WhenNull() {
       var absent = Optional.absent();
-      var exception = assertThrows(NullPointerException.class, () -> absent.filter(null));
-      assertEquals("predicate cannot be null", exception.getMessage());
+      var thrown = assertThrows(NullPointerException.class, () -> absent.filter(null));
+      assertEquals("predicate cannot be null", thrown.getMessage());
     }
 
     @Test
