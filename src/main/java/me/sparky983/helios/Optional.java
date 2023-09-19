@@ -219,8 +219,8 @@ import me.sparky983.helios.annotations.Nullable;
  * it is a replacement for {@code null}. Therefore, it is fine to use this type on parameters and
  * fields.
  * <p>
- * This interface is sealed and the implementations are records, so you can easily combine switch
- * pattern matching and record patterns (Java 21+ features) to handle the different cases:
+ * Java 21 introduces pattern matching for switch and record patterns, allowing for more concise
+ * handling of {@code Optional} values. For example:
  * {@snippet :
  * Optional<String> optional = Optional.present("value");
  * switch (optional) {
