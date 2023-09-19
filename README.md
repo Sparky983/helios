@@ -4,7 +4,7 @@ Helios is a core library that improves upon several shortcomings of the Java cor
 
 ## Quick Links
 
-- [📔 Javadocs](https://repo.sparky983.me/javadoc/snapshots/me/sparky983/helios/0.1.0-SNAPSHOT/me.sparky983.helios/module-summary.html)
+- [📔 Javadocs](https://repo.sparky983.me/javadoc/snapshots/me/sparky983/helios/0.1.0-SNAPSHOT/raw/me.sparky983.helios/module-summary.html)
 
 ## Warnings
 
