@@ -1,5 +1,6 @@
 package me.sparky983.helios.annotations;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -20,6 +21,7 @@ import javax.lang.model.element.TypeElement;
  * experimental even after the enclosing element is stabilised (this annotation is removed
  * from the enclosing element).
  */
+@Documented
 @Retention(RetentionPolicy.CLASS)
 @Target({
   ElementType.CONSTRUCTOR,

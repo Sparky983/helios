@@ -1,5 +1,6 @@
 package me.sparky983.helios.annotations;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -16,6 +17,7 @@ import java.lang.annotation.Target;
  * <p>This annotation is also temporary, and will be replaced with
  * {@code org.jspecify.annotations.Nullable} once is fully released.
  */
+@Documented
 @Retention(RetentionPolicy.CLASS)
 @Target(ElementType.TYPE_USE)
 public @interface Nullable {}
