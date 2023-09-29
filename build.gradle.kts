@@ -2,7 +2,7 @@ plugins {
     `java-library`
     `maven-publish`
 
-    id("com.diffplug.spotless") version "6.21.0"
+    id("com.diffplug.spotless") version "6.22.0"
 }
 
 repositories {
@@ -28,13 +28,14 @@ publishing {
     repositories {
         maven {
             name = "sparky983"
-            url = uri(
-                if (version.toString().endsWith("-SNAPSHOT")) {
-                    "https://repo.sparky983.me/snapshots"
-                } else {
-                    "https://repo.sparky983.me/releases"
-                },
-            )
+            url =
+                uri(
+                    if (version.toString().endsWith("-SNAPSHOT")) {
+                        "https://repo.sparky983.me/snapshots"
+                    } else {
+                        "https://repo.sparky983.me/releases"
+                    },
+                )
             credentials(PasswordCredentials::class)
             authentication {
                 create<BasicAuthentication>("basic")
