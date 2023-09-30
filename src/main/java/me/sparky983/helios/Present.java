@@ -76,6 +76,13 @@ public record Present<T extends Object>(T value) implements Optional<T> {
   }
 
   @Override
+  public T expect(final String message) {
+    Objects.requireNonNull(message, "message cannot be null");
+
+    return value;
+  }
+
+  @Override
   public <M extends Object> Optional<M> map(final Function<? super T, ? extends M> mapper) {
     Objects.requireNonNull(mapper, "mapper cannot be null");
 
