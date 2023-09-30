@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.NoSuchElementException;
 import java.util.function.Supplier;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
@@ -158,6 +159,19 @@ class OptionalTests {
       var present = Optional.present(VALUE);
       var thrown = assertThrows(NullPointerException.class, () -> present.orThrow(null));
       assertEquals("exceptionSupplier cannot be null", thrown.getMessage());
+    }
+
+    @Test
+    void testExpect() {
+      var value = Optional.present(VALUE).expect("message");
+      assertEquals(VALUE, value);
+    }
+
+    @Test
+    void testExpect_WhenNull() {
+      var present = Optional.present(VALUE);
+      var thrown = assertThrows(NullPointerException.class, () -> present.expect(null));
+      assertEquals("message cannot be null", thrown.getMessage());
     }
 
     @Test
@@ -343,16 +357,31 @@ class OptionalTests {
 
     @Test
     void testOrThrow_WhenNull() {
-      var present = Optional.absent();
-      var thrown = assertThrows(NullPointerException.class, () -> present.orThrow(null));
+      var absent = Optional.absent();
+      var thrown = assertThrows(NullPointerException.class, () -> absent.orThrow(null));
       assertEquals("exceptionSupplier cannot be null", thrown.getMessage());
     }
 
     @Test
     void testOrThrow_WhenReturnsNull() {
-      var present = Optional.absent();
-      var thrown = assertThrows(NullPointerException.class, () -> present.orThrow(() -> null));
+      var absent = Optional.absent();
+      var thrown = assertThrows(NullPointerException.class, () -> absent.orThrow(() -> null));
       assertEquals("exceptionSupplier cannot return null", thrown.getMessage());
+    }
+
+    @Test
+    void testExpect() {
+      var absent = Optional.absent();
+      var thrown =
+          assertThrows(NoSuchElementException.class, () -> absent.expect("optional to be present"));
+      assertEquals("Expected optional to be present", thrown.getMessage());
+    }
+
+    @Test
+    void testExpect_WhenNull() {
+      var absent = Optional.absent();
+      var thrown = assertThrows(NullPointerException.class, () -> absent.expect(null));
+      assertEquals("message cannot be null", thrown.getMessage());
     }
 
     @Test

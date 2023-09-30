@@ -1,5 +1,6 @@
 package me.sparky983.helios;
 
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -74,6 +75,13 @@ public record Absent<T extends Object>() implements Optional<T> {
     Objects.requireNonNull(exception, "exceptionSupplier cannot return null");
 
     throw exception;
+  }
+
+  @Override
+  public T expect(final String message) {
+    Objects.requireNonNull(message, "message cannot be null");
+
+    throw new NoSuchElementException("Expected " + message);
   }
 
   @Override

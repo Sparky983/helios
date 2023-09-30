@@ -1,8 +1,10 @@
 package me.sparky983.helios;
 
+import java.util.NoSuchElementException;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import me.sparky983.helios.annotations.Experimental;
 import me.sparky983.helios.annotations.Nullable;
 
 /**
@@ -443,6 +445,27 @@ public sealed interface Optional<T extends Object> permits Present, Absent {
    * }
    */
   <E extends Throwable> T orThrow(Supplier<? extends E> exceptionSupplier) throws E;
+
+  /**
+   * Returns the value of this {@code Optional} if present, otherwise throws an
+   * {@link NoSuchElementException}.
+   * <p><strong>Warning:</strong> this method is experimental, and such, is subject to backwards
+   * incompatible changes between minor versions.
+   *
+   * @param message a message that is used to create the exception
+   * @return the value of this {@code Optional} if present
+   * @throws NoSuchElementException if this {@code Optional} is absent.
+   * @throws NullPointerException if the message is {@code null}.
+   * @helios.apiNote The message should describe the expectation of the value.
+   * @helios.examples
+   * {@snippet :
+   * Optional<Integer> present = Optional.present(5)
+   *     .filter(n -> n % 2 == 1);
+   * assert present.expect("the optional to be odd") == 5;
+   * }
+   */
+  @Experimental
+  T expect(String message);
 
   /**
    * If this {@code Optional} is present, returns an {@code Optional} containing the value after
