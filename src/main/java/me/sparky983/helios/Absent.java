@@ -81,7 +81,7 @@ public record Absent<T extends Object>() implements Optional<T> {
   public T expect(final String message) {
     Objects.requireNonNull(message, "message cannot be null");
 
-    throw new NoSuchElementException("Expected "+ message);
+    throw new NoSuchElementException("Expected " + message);
   }
 
   @Override

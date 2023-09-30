@@ -372,8 +372,8 @@ class OptionalTests {
     @Test
     void testExpect() {
       var absent = Optional.absent();
-      var thrown = assertThrows(NoSuchElementException.class, () ->
-          absent.expect("optional to be present"));
+      var thrown =
+          assertThrows(NoSuchElementException.class, () -> absent.expect("optional to be present"));
       assertEquals("Expected optional to be present", thrown.getMessage());
     }
 
