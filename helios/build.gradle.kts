@@ -1,75 +1,12 @@
 plugins {
-    `java-library`
-    `maven-publish`
-
-    id("com.diffplug.spotless") version "6.22.0"
-}
-
-repositories {
-    mavenCentral()
+    id("helios.java")
+    id("helios.publishing")
+    id("helios.junit-platform")
+    id("helios.formatting")
 }
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.10.0"))
-    testImplementation("org.junit.jupiter:junit-jupiter-api")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-    testImplementation("org.junit.jupiter:junit-jupiter-params")
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(20))
-    }
-    withJavadocJar()
-    withSourcesJar()
-}
-
-publishing {
-    repositories {
-        maven {
-            name = "sparky983"
-            url =
-                uri(
-                    if (version.toString().endsWith("-SNAPSHOT")) {
-                        "https://repo.sparky983.me/snapshots"
-                    } else {
-                        "https://repo.sparky983.me/releases"
-                    },
-                )
-            credentials(PasswordCredentials::class)
-            authentication {
-                create<BasicAuthentication>("basic")
-            }
-        }
-    }
-    publications {
-        create<MavenPublication>("maven") {
-            from(components["java"])
-        }
-    }
-}
-
-spotless {
-    java {
-        palantirJavaFormat("2.35.0").style("GOOGLE")
-        formatAnnotations()
-    }
-    kotlinGradle {
-        ktlint()
-    }
-}
-
-tasks {
-    javadoc {
-        options {
-            (this as StandardJavadocDocletOptions).run {
-                tags("helios.implNote:a:Implementation Note:")
-                tags("helios.apiNote:a:API Note:")
-                tags("helios.examples:a:Examples:")
-            }
-        }
-    }
-    test {
-        useJUnitPlatform()
-    }
+    testImplementation(libs.junit.jupiter.api)
+    testImplementation(libs.junit.jupiter.params)
+    testRuntimeOnly(libs.junit.jupiter.engine)
 }
