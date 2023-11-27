@@ -7,7 +7,6 @@ import me.sparky983.helios.annotations.Experimental;
  *
  * @since 0.1
  */
-@SuppressWarnings("JavaModuleNaming")
 @Experimental // 0.x.y
 module me.sparky983.helios {
   requires static java.compiler; // for Javadocs
