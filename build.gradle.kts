@@ -2,7 +2,7 @@ plugins {
     `java-library`
     `maven-publish`
 
-    id("com.diffplug.spotless") version "6.22.0"
+    id("com.diffplug.spotless") version "6.23.3"
 }
 
 repositories {
