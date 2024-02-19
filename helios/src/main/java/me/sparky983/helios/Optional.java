@@ -137,7 +137,7 @@ import me.sparky983.helios.annotations.Nullable;
  * <table border="1">
  *   <caption>{@link java.util.Optional java.util.Optional} comparison</caption>
  *   <tr>
- *     <th>{@code me.sparky983.helios.optional.Optional}</th>
+ *     <th>{@code me.sparky983.helios.Optional}</th>
  *     <th>{@link java.util.Optional java.util.Optional}</th>
  *   </tr>
  *   <tr>
