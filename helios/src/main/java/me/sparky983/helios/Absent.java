@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import me.sparky983.helios.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An {@code Optional} that contains no value.
@@ -14,7 +14,7 @@ import me.sparky983.helios.annotations.Nullable;
  * @since 0.1.0
  * @helios.apiNote This class should not be constructed directly. Use {@link #absent()} instead.
  */
-public record Absent<T extends Object>() implements Optional<T> {
+public record Absent<T>() implements Optional<T> {
   static final Absent<?> ABSENT = new Absent<>();
 
   @Override
@@ -85,14 +85,14 @@ public record Absent<T extends Object>() implements Optional<T> {
   }
 
   @Override
-  public <M extends Object> Optional<M> map(final Function<? super T, ? extends M> mapper) {
+  public <M> Optional<M> map(final Function<? super T, ? extends M> mapper) {
     Objects.requireNonNull(mapper, "mapper cannot be null");
 
     return Optional.absent();
   }
 
   @Override
-  public <M extends Object> Optional<M> flatMap(
+  public <M> Optional<M> flatMap(
       final Function<? super T, ? extends Optional<? extends M>> mapper) {
     Objects.requireNonNull(mapper, "mapper cannot be null");
 

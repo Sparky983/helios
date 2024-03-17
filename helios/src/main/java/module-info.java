@@ -10,6 +10,7 @@ import me.sparky983.helios.annotations.Experimental;
 @Experimental // 0.x.y
 module me.sparky983.helios {
   requires static java.compiler; // for Javadocs
+  requires static org.jspecify;
 
   exports me.sparky983.helios;
 }
