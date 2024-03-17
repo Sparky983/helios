@@ -5,6 +5,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import me.sparky983.helios.annotations.Experimental;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -231,16 +232,15 @@ import org.jspecify.annotations.Nullable;
  * }
  * }
  */
-public sealed interface Optional<T> permits Present, Absent {
+public sealed interface Optional<T extends @Nullable Object> permits Present, Absent {
   /**
    * Returns a present {@code Optional} containing the given value.
    *
    * @param value the value
    * @return a present {@code Optional} containing the given value
    * @param <T> the type of the value
-   * @throws NullPointerException if the value is {@code null}.
    */
-  static <T> Optional<T> present(final T value) {
+  static <T extends @Nullable Object> Optional<T> present(final T value) {
     return new Present<>(value);
   }
 
@@ -254,7 +254,7 @@ public sealed interface Optional<T> permits Present, Absent {
    * @helios.implNote This method returns a singleton instance of {@link Absent}.
    */
   @SuppressWarnings("unchecked")
-  static <T> Optional<T> absent() {
+  static <T extends @Nullable Object> Optional<T> absent() {
     return (Absent<T>) Absent.ABSENT;
   }
 
@@ -275,7 +275,7 @@ public sealed interface Optional<T> permits Present, Absent {
    * Optional<String> optional = Optional.fromNullable(map.get("key"));
    * }
    */
-  static <T> Optional<T> fromNullable(final @Nullable T value) {
+  static <T extends @Nullable Object> Optional<T> fromNullable(final @Nullable T value) {
     if (value != null) {
       return present(value);
     } else {
@@ -303,7 +303,7 @@ public sealed interface Optional<T> permits Present, Absent {
    * }
    */
   @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-  static <T> Optional<T> from(final java.util.Optional<T> optional) {
+  static <T extends @Nullable Object> Optional<T> from(final java.util.Optional<T> optional) {
     return optional.map(Optional::present).orElse(Optional.absent());
   }
 
@@ -390,7 +390,7 @@ public sealed interface Optional<T> permits Present, Absent {
    * assert absent.orDefault(10) == 10;
    * }
    */
-  T orDefault(T defaultValue);
+  T orDefault(@NonNull T defaultValue);
 
   /**
    * Returns the value of this {@code Optional} if present, otherwise the return value of the
@@ -475,7 +475,7 @@ public sealed interface Optional<T> permits Present, Absent {
    * @return an {@code Optional} containing the mapped value if this {@code Optional} is present,
    * otherwise an absent {@code Optional}
    * @param <M> the result of the mapper
-   * @throws NullPointerException if the given mapper is {@code null} or returns {@code null}.
+   * @throws NullPointerException if the given mapper is {@code null}.
    * @helios.examples
    * {@snippet :
    * Optional<Integer> present = Optional.present(5);
@@ -485,7 +485,7 @@ public sealed interface Optional<T> permits Present, Absent {
    * assert absent.map(n -> n * 2).isAbsent();
    * }
    */
-  <M> Optional<M> map(Function<? super T, ? extends M> mapper);
+  <M extends @Nullable Object> Optional<M> map(Function<? super T, ? extends M> mapper);
 
   /**
    * If this {@code Optional} is present, returns the result of applying the given mapper to the
@@ -508,7 +508,7 @@ public sealed interface Optional<T> permits Present, Absent {
    *     .flatMap(user -> user.findRepository("helios"));
    * }
    */
-  <M> Optional<M> flatMap(
+  <M extends @Nullable Object> Optional<M> flatMap(
       Function<? super T, ? extends Optional<? extends M>> mapper);
 
   /**

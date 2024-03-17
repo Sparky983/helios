@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -46,7 +47,7 @@ public record Absent<T>() implements Optional<T> {
   }
 
   @Override
-  public T orDefault(final T defaultValue) {
+  public T orDefault(final @NonNull T defaultValue) {
     Objects.requireNonNull(defaultValue, "defaultValue cannot be null");
 
     return defaultValue;
@@ -85,14 +86,14 @@ public record Absent<T>() implements Optional<T> {
   }
 
   @Override
-  public <M> Optional<M> map(final Function<? super T, ? extends M> mapper) {
+  public <M extends @Nullable Object> Optional<M> map(final Function<? super T, ? extends M> mapper) {
     Objects.requireNonNull(mapper, "mapper cannot be null");
 
     return Optional.absent();
   }
 
   @Override
-  public <M> Optional<M> flatMap(
+  public <M extends @Nullable Object> Optional<M> flatMap(
       final Function<? super T, ? extends Optional<? extends M>> mapper) {
     Objects.requireNonNull(mapper, "mapper cannot be null");
 
