@@ -508,8 +508,7 @@ public sealed interface Optional<T> permits Present, Absent {
    *     .flatMap(user -> user.findRepository("helios"));
    * }
    */
-  <M> Optional<M> flatMap(
-      Function<? super T, ? extends Optional<? extends M>> mapper);
+  <M> Optional<M> flatMap(Function<? super T, ? extends Optional<? extends M>> mapper);
 
   /**
    * If this {@code Optional} is present and the value matches the given predicate, returns this
