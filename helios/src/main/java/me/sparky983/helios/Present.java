@@ -14,7 +14,7 @@ import java.util.function.Supplier;
  * @helios.apiNote This class should not be constructed directly and is only public for pattern
  * matching. Use {@link #present(Object)} instead.
  */
-public record Present<T extends Object>(T value) implements Optional<T> {
+public record Present<T>(T value) implements Optional<T> {
   /**
    * Constructs a new {@code Present} {@code Optional} with the given value.
    *
@@ -83,7 +83,7 @@ public record Present<T extends Object>(T value) implements Optional<T> {
   }
 
   @Override
-  public <M extends Object> Optional<M> map(final Function<? super T, ? extends M> mapper) {
+  public <M> Optional<M> map(final Function<? super T, ? extends M> mapper) {
     Objects.requireNonNull(mapper, "mapper cannot be null");
 
     final var mappedValue =
@@ -94,7 +94,7 @@ public record Present<T extends Object>(T value) implements Optional<T> {
 
   @SuppressWarnings("unchecked")
   @Override
-  public <M extends Object> Optional<M> flatMap(
+  public <M> Optional<M> flatMap(
       final Function<? super T, ? extends Optional<? extends M>> mapper) {
     Objects.requireNonNull(mapper, "mapper cannot be null");
 

@@ -6,6 +6,8 @@ plugins {
 }
 
 dependencies {
+    compileOnly(libs.jspecify.annotations)
+
     testImplementation(libs.junit.jupiter.api)
     testImplementation(libs.junit.jupiter.params)
     testRuntimeOnly(libs.junit.jupiter.engine)
